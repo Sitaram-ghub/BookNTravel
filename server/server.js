@@ -35,12 +35,11 @@ app.use('/api/ai', require('./routes/aiRoutes'));
 const path = require('path');
 
 // Serve static assets from client folder
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(process.cwd(), 'client')));
 
-// Redirect any non-API routes to index.html (for Single Page App behavior if needed)
-// Or just serve index.html at root
+// Redirect any non-API routes to index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  res.sendFile(path.join(process.cwd(), 'client/index.html'));
 });
 
 // Error handling middleware
