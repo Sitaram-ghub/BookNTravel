@@ -455,7 +455,9 @@ body.dark-mode .form-select:focus {
 /* Floating labels (Login/Register) */
 body.dark-mode .form-floating label {
   color: var(--text-muted-dark);
-  background: transparent;
+  background: var(--surface-dark);
+  padding: 0 5px;
+  border-radius: 4px;
 }
 body.dark-mode .form-floating > .form-control {
   background-color: var(--surface-dark);
@@ -469,6 +471,9 @@ body.dark-mode .form-floating > .form-control:focus ~ label,
 body.dark-mode .form-floating > .form-control:not(:placeholder-shown) ~ label {
   color: #60a5fa;
   opacity: 1;
+  background: var(--surface-dark);
+  padding: 0 8px;
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 /* Input group (Payment card icon) */
 body.dark-mode .input-group-text {
