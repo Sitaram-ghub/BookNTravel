@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label text-muted small">Mobile Number</label>
-                  <input type="tel" class="form-control" id="custPhone" placeholder="+91 9876543210" required>
+                  <input type="tel" class="form-control" id="custPhone" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                 </div>
               </div>
             </div>
