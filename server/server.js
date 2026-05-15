@@ -32,8 +32,15 @@ app.use('/api/trains', require('./routes/trainRoutes'));
 app.use('/api/hotels', require('./routes/hotelRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 
+const path = require('path');
+
+// Serve static assets from client folder
+app.use(express.static(path.join(__dirname, '../client')));
+
+// Redirect any non-API routes to index.html (for Single Page App behavior if needed)
+// Or just serve index.html at root
 app.get('/', (req, res) => {
-  res.send('BookNTravel API is running...');
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 // Error handling middleware

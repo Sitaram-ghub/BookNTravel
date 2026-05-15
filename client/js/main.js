@@ -1,7 +1,7 @@
 // Base URL for API
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://127.0.0.1:5000/api'
-  : 'https://your-render-backend-url.onrender.com/api'; // Update this for production
+  : window.location.origin + '/api';
 
 // Theme Toggle Logic
 const themeToggleBtn = document.getElementById('themeToggleBtn');
