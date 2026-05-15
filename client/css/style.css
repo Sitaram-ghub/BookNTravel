@@ -470,12 +470,18 @@ body.dark-mode .form-floating > .form-control {
 
 body.dark-mode .form-floating > label {
   color: var(--text-muted-dark);
+  transition: all 0.2s ease-in-out;
 }
 
 body.dark-mode .form-floating > .form-control:focus ~ label,
 body.dark-mode .form-floating > .form-control:not(:placeholder-shown) ~ label {
   color: #60a5fa !important;
   background-color: var(--surface-dark) !important;
+  padding: 2px 8px !important;
+  height: auto;
+  border-radius: 4px;
+  transform: scale(.85) translateY(-0.75rem) translateX(0.15rem) !important;
+  opacity: 1 !important;
 }
 /* Input group (Payment card icon) */
 body.dark-mode .input-group-text {
