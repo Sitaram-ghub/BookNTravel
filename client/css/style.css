@@ -468,20 +468,24 @@ body.dark-mode .form-floating > .form-control {
   color: #e8ecf1 !important;
 }
 
-body.dark-mode .form-floating > label {
-  color: var(--text-muted-dark);
-  transition: all 0.2s ease-in-out;
+.password-wrapper {
+  position: relative;
 }
-
-body.dark-mode .form-floating > .form-control:focus ~ label,
-body.dark-mode .form-floating > .form-control:not(:placeholder-shown) ~ label {
-  color: #60a5fa !important;
-  background-color: var(--surface-dark) !important;
-  padding: 2px 8px !important;
-  height: auto;
-  border-radius: 4px;
-  transform: scale(.85) translateY(-0.75rem) translateX(0.15rem) !important;
-  opacity: 1 !important;
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--text-muted-dark);
+  z-index: 10;
+  font-size: 1.1rem;
+}
+.password-toggle:hover {
+  color: var(--primary-color);
+}
+.custom-input {
+  padding-right: 45px !important; /* Make room for the eye icon */
 }
 /* Input group (Payment card icon) */
 body.dark-mode .input-group-text {

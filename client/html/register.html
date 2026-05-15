@@ -7,37 +7,146 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../css/style.css">
-</head>
-<body class="d-flex align-items-center py-4 bg-body-tertiary" style="min-height: 100vh;">
+  <style>
+    .auth-split-container {
+      min-height: 100vh;
+      display: flex;
+      background-color: var(--bg-dark);
+    }
+    .auth-image-side {
+      flex: 1.2;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      color: white;
+    }
+    .auth-form-side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background-color: var(--bg-dark);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 450px;
+      background: transparent;
+      border: none;
+    }
+    .social-btn {
+      border: 1px solid var(--border-dark);
+      background: transparent;
+      color: var(--text-dark);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    .social-btn:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--primary-color);
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 25px 0;
+      color: var(--text-muted-dark);
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-dark);
+    }
+    .divider:not(:empty)::before { margin-right: .75em; }
+    .divider:not(:empty)::after { margin-left: .75em; }
 
-  <div class="container">
+    .custom-input-group {
+      margin-bottom: 18px;
+    }
+    .custom-input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-muted-dark);
+    }
+    .custom-input {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: white;
+      transition: all 0.3s;
+    }
+    .custom-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.15);
+    }
+    @media (max-width: 992px) {
+      .auth-image-side { display: none; }
+      .auth-form-side { flex: 1; width: 100%; }
+    }
+  </style>
+</head>
+<body class="dark-mode">
+
+  <div class="container py-5">
     <div class="row justify-content-center">
-      <div class="col-md-5 col-lg-4">
-        <div class="card glass-panel p-4">
+      <div class="col-md-5">
+        <div class="card glass-panel p-4 p-md-5">
           <div class="text-center mb-4">
-            <h2 class="fw-bold text-primary"><span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span></h2>
-            <p class="text-muted">Create an account</p>
+             <h2 class="fw-bold text-primary mb-2"><span style="color:#ffffff">Book</span><span style="color:#ff5722">N</span><span style="color:#ffffff">Travel</span></h2>
+             <p class="text-muted">Create your account</p>
           </div>
-          
+
           <form id="registerForm">
             <div id="errorMsg" class="alert alert-danger d-none" role="alert"></div>
             
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="name" placeholder=" " required>
+            <div class="custom-input-group">
               <label for="name">Full Name</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="email" placeholder=" " required>
-              <label for="email">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="password" placeholder=" " required>
-              <label for="password">Password</label>
+              <input type="text" class="custom-input" id="name" placeholder="e.g. XYZ Name" required>
             </div>
 
-            <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Sign up</button>
-            <p class="text-center">Already have an account? <a href="login.html">Sign in</a></p>
-            <p class="text-center mt-3"><a href="/index.html" class="text-secondary text-decoration-none"><i class="bi bi-arrow-left"></i> Back to Home</a></p>
+            <div class="custom-input-group">
+              <label for="email">Email Address</label>
+              <input type="email" class="custom-input" id="email" placeholder="e.g. xyz@example.com" required>
+            </div>
+            
+            <div class="custom-input-group">
+              <label for="password">Password</label>
+              <div class="password-wrapper">
+                <input type="password" class="custom-input" id="password" placeholder="e.g. StrongPass#2024" minlength="8" required>
+                <i class="bi bi-eye password-toggle" id="togglePassword"></i>
+              </div>
+              <small class="text-muted mt-1 d-block" style="font-size: 0.75rem;">At least 8 characters (mix of letters, numbers & symbols)</small>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="terms" required>
+              <label class="form-check-label text-muted small" for="terms">I agree to the <a href="terms.html" class="text-primary text-decoration-none">Terms</a> and <a href="privacy.html" class="text-primary text-decoration-none">Privacy Policy</a></label>
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 fw-bold mb-4" type="submit" style="border-radius: 12px;">Create Account</button>
+            
+            <p class="text-center text-muted small">
+              Already have an account? <a href="login.html" class="text-primary fw-bold text-decoration-none">Log in here</a>
+            </p>
+            <p class="text-center mt-3">
+              <a href="/index.html" class="text-muted small text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Back to Home</a>
+            </p>
           </form>
         </div>
       </div>
@@ -46,6 +155,17 @@
 
   <script src="../js/main.js"></script>
   <script>
+    // Password Toggle Logic
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function (e) {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('bi-eye');
+      this.classList.toggle('bi-eye-slash');
+    });
+
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('name').value;
@@ -53,6 +173,15 @@
       const password = document.getElementById('password').value;
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.classList.add('d-none');
+
+      // Strict Password Validation (Letters, Numbers, Symbols, Min 8)
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+      
+      if (!passwordRegex.test(password)) {
+        errorMsg.textContent = 'Password must be at least 8 characters and include letters, numbers, and symbols (@$!%*#?&).';
+        errorMsg.classList.remove('d-none');
+        return;
+      }
 
       try {
         const res = await fetch(`${API_URL}/auth/register`, {
