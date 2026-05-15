@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destinations | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Leaflet CSS for Maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar Placeholder (You would normally use a template engine, here we duplicate for simplicity) -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html">
+        <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3 active" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container py-5 mt-4">
+    <h1 class="mb-4 fw-bold">Explore Destinations</h1>
+    
+    <!-- Search / Filter -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by name or location..." list="destList">
+        <datalist id="destList"></datalist>
+      </div>
+    </div>
+
+    <div class="row g-4" id="destinationsContainer">
+      <!-- Skeleton Loading Grid -->
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-4 col-lg-3"><div class="skeleton-box skeleton-card"></div></div>
+    </div>
+  </div>
+
+  <!-- Overview Modal -->
+  <div class="modal fade" id="overviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content glass-panel border-0">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 pt-0">
+          <div class="row">
+            <div class="col-md-5 mb-3 mb-md-0">
+              <img id="modalImg" src="" alt="" class="img-fluid rounded-4 shadow-sm mb-3" style="width: 100%; height: 250px; object-fit: cover;">
+              <!-- Map Container -->
+              <div id="map" class="rounded-4 shadow-sm" style="height: 200px; width: 100%; background: #eee;"></div>
+            </div>
+            <div class="col-md-7 d-flex flex-column">
+              <h2 id="modalTitle" class="fw-bold text-primary mb-1">Title</h2>
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <p class="text-muted mb-0"><i class="bi bi-geo-alt-fill"></i> <span id="modalLocation">Location</span></p>
+                <!-- Live Weather Box -->
+                <div class="bg-light rounded p-2 text-center shadow-sm border" style="min-width: 100px;">
+                  <span id="weatherIcon" class="fs-4">🌦️</span><br>
+                  <span id="weatherTemp" class="fw-bold fs-5">--°C</span>
+                </div>
+              </div>
+              <div class="d-flex gap-3 mb-3">
+                <span class="badge shadow-sm fs-6" style="background: #ffc107; color: #000 !important; font-weight: 800; border: 1px solid rgba(0,0,0,0.1);"><i class="bi bi-star-fill me-1" style="color: #000 !important;"></i> <span id="modalRating" style="color: #000 !important;"></span></span>
+                <span class="fw-bold text-success fs-5">₹<span id="modalPrice"></span> Avg.</span>
+              </div>
+              <p id="modalDesc" class="lead fs-6 flex-grow-1"></p>
+              
+              <div class="d-flex gap-2 mt-auto pt-3 border-top">
+                <a id="modalViewPkgBtn" href="/html/packages.html" class="btn btn-primary rounded-pill flex-grow-1 shadow-sm">View Packages</a>
+                <button class="btn btn-outline-danger rounded-pill shadow-sm btn-wishlist-heart" id="destWishBtn" onclick="addToWishlist()"><i class="bi bi-heart"></i> Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    let allDestinations = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch(`${API_URL}/destinations?cb=${Date.now()}`);
+        allDestinations = await res.json();
+        
+        // Populate Datalist for autocomplete
+        const datalist = document.getElementById('destList');
+        const uniqueTitles = [...new Set(allDestinations.map(d => d.title))];
+        datalist.innerHTML = uniqueTitles.map(t => `<option value="${t}">`).join('');
+        
+        renderDestinations(allDestinations);
+      } catch (err) {
+        document.getElementById('destinationsContainer').innerHTML = '<p class="text-danger w-100 text-center">Failed to load destinations.</p>';
+      }
+    });
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const filtered = allDestinations.filter(d => 
+        d.title.toLowerCase().includes(term) || d.location.toLowerCase().includes(term)
+      );
+      renderDestinations(filtered);
+    });
+
+    function renderDestinations(data) {
+      const container = document.getElementById('destinationsContainer');
+      container.innerHTML = '';
+      if(data.length === 0) {
+        container.innerHTML = '<p class="text-center w-100">No destinations found.</p>';
+        return;
+      }
+
+      data.forEach(dest => {
+        const ratingLabel = dest.rating >= 4.5 ? 'Superb' : dest.rating >= 4.0 ? 'Excellent' : 'Very Good';
+        container.innerHTML += `
+          <div class="col-md-4 col-lg-3">
+            <div class="card h-100 micro-scale shimmer-hover">
+              <div class="position-relative">
+                <img src="${dest.image}" class="card-img-top" alt="${dest.title}" style="height: 200px; object-fit: cover;">
+                <span class="badge bg-primary position-absolute top-0 end-0 m-2 px-2 py-1 rounded-pill" style="font-size:0.7rem;"><i class="bi bi-star-fill me-1"></i>${dest.rating} ${ratingLabel}</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-bold">${dest.title}</h5>
+                <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-danger"></i> ${dest.location}</p>
+                <p class="card-text text-truncate flex-grow-1">${dest.description}</p>
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                  <span class="fw-bold text-success fs-5">₹${dest.price.toLocaleString('en-IN')}</span>
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-2"><i class="bi bi-lightning-fill me-1"></i>Popular</span>
+                </div>
+                <button class="btn btn-outline-primary w-100 rounded-pill mt-auto fw-semibold" onclick="showOverview('${dest._id}')"><i class="bi bi-eye me-1"></i>View Overview</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    const overviewModal = new bootstrap.Modal(document.getElementById('overviewModal'));
+    let map = null;
+    let currentDestId = null;
+
+    async function showOverview(id) {
+      const dest = allDestinations.find(d => d._id === id);
+      if(dest) {
+        currentDestId = id;
+        document.getElementById('modalTitle').innerText = dest.title;
+        document.getElementById('modalLocation').innerText = dest.location;
+        document.getElementById('modalImg').src = dest.image;
+        document.getElementById('modalRating').innerText = dest.rating;
+        document.getElementById('modalPrice').innerText = dest.price;
+        document.getElementById('modalDesc').innerText = dest.description;
+        
+        // Set "View Packages" link to filter for this destination
+        document.getElementById('modalViewPkgBtn').href = `/html/packages.html?dest=${dest._id}&name=${encodeURIComponent(dest.title)}`;
+        
+        // Reset weather
+        document.getElementById('weatherTemp').innerText = 'Loading...';
+        
+        overviewModal.show();
+
+        // Fetch Weather and Map coordinates using cached DB values
+        try {
+          const { latitude, longitude } = dest;
+          
+          if(latitude && longitude) {
+            // 1. Fetch Weather
+            const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+            const weatherData = await weatherRes.json();
+            const temp = weatherData.current_weather.temperature;
+            const code = weatherData.current_weather.weathercode;
+            
+            // Map WMO codes to icons
+            let icon = '☀️';
+            if ([1, 2, 3].includes(code)) icon = '⛅';
+            if ([45, 48].includes(code)) icon = '🌫️';
+            if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) icon = '🌧️';
+            if ([71, 73, 75, 77, 85, 86].includes(code)) icon = '❄️';
+            if ([95, 96, 99].includes(code)) icon = '⛈️';
+            
+            document.getElementById('weatherIcon').innerText = icon;
+            document.getElementById('weatherTemp').innerText = `${temp}°C`;
+
+            // 2. Load Map (Wait for modal transition)
+            setTimeout(() => {
+              if (map !== null) { map.remove(); }
+              map = L.map('map').setView([latitude, longitude], 12);
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+              }).addTo(map);
+              L.marker([latitude, longitude]).addTo(map).bindPopup(dest.title).openPopup();
+            }, 300);
+          } else {
+            document.getElementById('weatherTemp').innerText = '--°C';
+          }
+        } catch (err) {
+          console.error("Map/Weather error", err);
+          document.getElementById('weatherTemp').innerText = 'N/A';
+        }
+      }
+    }
+
+    async function addToWishlist() {
+      if(!currentDestId) return;
+      const dest = allDestinations.find(d => d._id === currentDestId);
+      if(!dest) return;
+      const btn = document.getElementById('destWishBtn');
+
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      if(wishlist.find(w => w._id === dest._id)) {
+        // Toggle off — remove from wishlist
+        wishlist = wishlist.filter(w => w._id !== dest._id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        if(btn) { btn.classList.remove('wishlisted'); btn.innerHTML = '<i class="bi bi-heart"></i> Save'; }
+        return;
+      }
+      
+      wishlist.push({
+        type: 'destination',
+        _id: dest._id,
+        title: dest.title,
+        location: dest.location,
+        image: dest.image,
+        price: dest.price
+      });
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      if(btn) { btn.classList.add('wishlisted'); btn.innerHTML = '<i class="bi bi-heart-fill"></i> Saved'; }
+    }
+  </script>
+</body>
+</html>

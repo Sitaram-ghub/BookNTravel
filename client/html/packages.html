@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Packages | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html">
+        <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3 active" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container py-5 mt-4">
+    <h1 class="mb-4 fw-bold" id="pageHeading">Tour Packages</h1>
+    
+    <div class="card glass-panel p-4 mb-4">
+      <div class="row g-3">
+        <div class="col-md-10">
+          <input type="text" id="packageSearch" class="form-control" placeholder="Search by destination (e.g. Goa, Paris)" list="packageDestList">
+          <datalist id="packageDestList"></datalist>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" onclick="filterPackages()">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="bookingMsg" class="alert d-none" role="alert"></div>
+
+    <div class="row g-4" id="packagesContainer">
+      <!-- Skeleton Loading Grid -->
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+      <div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Book Package</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="bookingForm">
+            <input type="hidden" id="pkgId">
+            <div class="mb-3">
+              <label class="form-label">Select Package Option</label>
+              <select class="form-select" id="pkgSelect" onchange="updateSelectedPackage()"></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Number of Travelers</label>
+              <input type="number" class="form-control" id="travelers" min="1" value="1" required>
+            </div>
+            <div class="bg-light p-3 rounded mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Base Price:</span>
+                <span>₹<span id="basePrice">0.00</span></span>
+              </div>
+              <div class="d-flex justify-content-between mb-1 text-muted small">
+                <span>Taxes & Fees (15%):</span>
+                <span>₹<span id="taxAmount">0.00</span></span>
+              </div>
+              <hr class="my-2">
+              <div class="d-flex justify-content-between fw-bold text-primary">
+                <span>Grand Total:</span>
+                <span>₹<span id="totalPrice">0.00</span></span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    let allPackages = [];
+    let currentPkgPrice = 0;
+    const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+
+    // Check if we came from a specific destination
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterDestId = urlParams.get('dest');
+    const filterDestName = urlParams.get('name');
+
+    function filterPackages() {
+      const searchVal = document.getElementById('packageSearch').value.trim().toLowerCase();
+      if(!searchVal) {
+        renderPackages(allPackages);
+        document.getElementById('pageHeading').innerHTML = 'Tour Packages';
+        return;
+      }
+      const filtered = allPackages.filter(pkg => 
+        pkg.destination && pkg.destination.title.toLowerCase().includes(searchVal)
+      );
+      document.getElementById('pageHeading').innerHTML = `
+        <span>Packages for <span class="text-primary">${searchVal.charAt(0).toUpperCase() + searchVal.slice(1)}</span></span>
+        <a href="/html/packages.html" class="btn btn-outline-secondary btn-sm rounded-pill ms-3"><i class="bi bi-arrow-left"></i> Show All Packages</a>
+      `;
+      renderPackages(filtered);
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch(`${API_URL}/packages?cb=${Date.now()}`);
+        allPackages = await res.json();
+
+        // Populate datalist with destination names
+        const destNames = [...new Set(allPackages.map(p => p.destination ? p.destination.title : '').filter(Boolean))].sort();
+        document.getElementById('packageDestList').innerHTML = destNames.map(d => `<option value="${d}">`).join('');
+
+        // Check sessionStorage for search from home page
+        const savedSearch = sessionStorage.getItem('packageSearch');
+        if(savedSearch) {
+          const { destName, destId } = JSON.parse(savedSearch);
+          sessionStorage.removeItem('packageSearch');
+          if(destName) {
+            document.getElementById('packageSearch').value = destName;
+            document.getElementById('pageHeading').innerHTML = `
+              <span>Packages for <span class="text-primary">${destName}</span></span>
+              <a href="/html/packages.html" class="btn btn-outline-secondary btn-sm rounded-pill ms-3"><i class="bi bi-arrow-left"></i> Show All Packages</a>
+            `;
+            if(destId) {
+              const filtered = allPackages.filter(pkg => pkg.destination && pkg.destination._id === destId);
+              renderPackages(filtered);
+            } else {
+              const filtered = allPackages.filter(pkg => pkg.destination && pkg.destination.title.toLowerCase().includes(destName.toLowerCase()));
+              renderPackages(filtered);
+            }
+            return;
+          }
+        }
+
+        // Check URL params (from destinations page)
+        if (filterDestName) {
+          document.getElementById('pageHeading').innerHTML = `
+            <span>Packages for <span class="text-primary">${decodeURIComponent(filterDestName)}</span></span>
+            <a href="/html/packages.html" class="btn btn-outline-secondary btn-sm rounded-pill ms-3"><i class="bi bi-arrow-left"></i> Show All Packages</a>
+          `;
+        }
+        if (filterDestId) {
+          const filtered = allPackages.filter(pkg => pkg.destination && pkg.destination._id === filterDestId);
+          renderPackages(filtered);
+        } else {
+          renderPackages(allPackages);
+        }
+      } catch (err) {
+        document.getElementById('packagesContainer').innerHTML = '<p class="text-danger w-100 text-center">Failed to load packages.</p>';
+      }
+    });
+
+    function renderPackages(data) {
+      const container = document.getElementById('packagesContainer');
+      container.innerHTML = '';
+      if(data.length === 0) {
+        container.innerHTML = '<p class="text-center w-100">No packages found.</p>';
+        return;
+      }
+
+      // Group packages by destination ID
+      const grouped = {};
+      data.forEach(pkg => {
+        const destId = pkg.destination ? pkg.destination._id : 'unknown';
+        if(!grouped[destId]) {
+          grouped[destId] = {
+            destination: pkg.destination,
+            packages: []
+          };
+        }
+        grouped[destId].packages.push(pkg);
+      });
+
+      Object.values(grouped).forEach(group => {
+        const destTitle = group.destination ? group.destination.title : 'Unknown Destination';
+        const destImage = group.destination ? group.destination.image : 'https://via.placeholder.com/400';
+        
+        // Find cheapest package in group for "Starting from"
+        const cheapestPkg = group.packages.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
+        const startingPrice = cheapestPkg.price;
+        const numOptions = group.packages.length;
+        
+        // Extract package type names for display
+        const typeNames = group.packages.map(p => {
+          const name = p.packageName.replace(destTitle, '').replace('Getaway', '').trim();
+          return name;
+        });
+        const typeLabels = typeNames.join(' · ');
+        
+        // Build duration range
+        const durations = group.packages.map(p => parseInt(p.duration));
+        const minDays = Math.min(...durations);
+        const maxDays = Math.max(...durations);
+        const durationText = minDays === maxDays ? `${minDays} Days` : `${minDays}-${maxDays} Days`;
+        
+        const cardId = 'pkgTypes_' + (destTitle.replace(/\s+/g,'') + '_' + Math.random().toString(36).substr(2,5));
+
+        // Store the grouped packages as a JSON string to pass to the modal
+        const groupDataStr = encodeURIComponent(JSON.stringify(group.packages));
+
+        container.innerHTML += `
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 micro-scale shimmer-hover">
+              <div class="position-relative">
+                <img src="${destImage}" class="card-img-top" alt="${destTitle}" style="height: 200px; object-fit: cover;">
+                <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 px-2 py-1 rounded-pill" style="font-size:0.7rem;"><i class="bi bi-lightning-fill me-1"></i>${numOptions} Options</span>
+                ${startingPrice < 15000 ? '<span class="badge bg-success position-absolute top-0 end-0 m-2 px-2 py-1 rounded-pill" style="font-size:0.7rem;"><i class="bi bi-tag-fill me-1"></i>Best Value</span>' : ''}
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary fw-bold">${destTitle} Holiday Packages</h5>
+                <p class="text-muted small mb-2"><i class="bi bi-briefcase-fill text-info me-1"></i>${numOptions} Options · <i class="bi bi-clock me-1"></i>${durationText}</p>
+                
+                <a class="small fw-semibold text-muted mb-1" style="cursor:pointer; text-decoration:none;" data-bs-toggle="collapse" href="#${cardId}" role="button" aria-expanded="false">
+                  <i class="bi bi-chevron-down me-1"></i>Show Available Options
+                </a>
+                <div class="collapse mb-2" id="${cardId}">
+                  <div class="mt-2">
+                    ${group.packages.map((p, i) => {
+                      const label = p.packageName.replace(destTitle, '').replace('Getaway', '').trim();
+                      const icons = {
+                        'Romantic': 'bi-heart-fill',
+                        'Adventure': 'bi-compass-fill',
+                        'Family': 'bi-people-fill',
+                        'Luxury': 'bi-diamond-fill',
+                        'Budget': 'bi-piggy-bank-fill',
+                        'Solo Explorer': 'bi-person-fill',
+                        'Backpacker': 'bi-backpack-fill'
+                      };
+                      const icon = icons[label] || 'bi-bookmark-star-fill';
+                      return '<div class="d-flex align-items-center py-1' + (i < group.packages.length - 1 ? ' border-bottom border-opacity-10' : '') + '" style="font-size:0.78rem;"><span class="text-muted flex-grow-1"><i class="bi ' + icon + ' me-2 text-primary opacity-75"></i>' + label + '</span><span class="text-muted opacity-75 me-3" style="white-space:nowrap;">' + p.duration + '</span><span class="fw-bold text-success" style="white-space:nowrap;">₹' + p.price.toLocaleString('en-IN') + '</span></div>';
+                    }).join('')}
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-auto border-top pt-3">
+                  <div>
+                    <span class="text-muted small d-block">Starting from</span>
+                    <h4 class="mb-0 fw-bold text-success">₹${startingPrice.toLocaleString('en-IN')}</h4>
+                  </div>
+                  <div>
+                    <button class="btn btn-outline-danger me-2 rounded-pill btn-wishlist-heart" id="wishBtn_${cheapestPkg._id}" onclick="addToWishlist('${cheapestPkg._id}', '${cheapestPkg.packageName}', '${destImage}', ${cheapestPkg.price}, this)"><i class="bi bi-heart"></i></button>
+                    <button class="btn btn-primary rounded-pill fw-semibold" onclick="openGroupBookingModal('${groupDataStr}', '${destImage}')"><i class="bi bi-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      // Mark hearts for already wishlisted items
+      setTimeout(() => markWishlistedHearts(), 50);
+    }
+
+    let currentGroupPackages = [];
+
+    function openGroupBookingModal(groupDataStr, image) {
+      if(!getUser()) {
+        window.location.href = 'login.html';
+        return;
+      }
+      currentGroupPackages = JSON.parse(decodeURIComponent(groupDataStr));
+      
+      const select = document.getElementById('pkgSelect');
+      select.innerHTML = currentGroupPackages.map((pkg, i) => 
+        `<option value="${i}">${pkg.packageName} (${pkg.duration}) - ₹${pkg.price}</option>`
+      ).join('');
+      
+      document.getElementById('travelers').value = 1;
+      updateSelectedPackage();
+      bookingModal.show();
+    }
+
+    function updateSelectedPackage() {
+      const select = document.getElementById('pkgSelect');
+      const selectedPkg = currentGroupPackages[select.value];
+      document.getElementById('pkgId').value = selectedPkg._id;
+      currentPkgPrice = selectedPkg.price;
+      updateTotal();
+    }
+
+    document.getElementById('travelers').addEventListener('input', updateTotal);
+
+    function updateTotal() {
+      const t = document.getElementById('travelers').value || 1;
+      const base = t * currentPkgPrice;
+      const tax = base * 0.15;
+      const total = base + tax;
+      
+      document.getElementById('basePrice').innerText = base.toFixed(2);
+      document.getElementById('taxAmount').innerText = tax.toFixed(2);
+      document.getElementById('totalPrice').innerText = total.toFixed(2);
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pkgId = document.getElementById('pkgId').value;
+      const travelers = document.getElementById('travelers').value;
+      
+      if(!travelers || travelers < 1) return;
+
+      // Hide modal and redirect to payment page
+      bookingModal.hide();
+      sessionStorage.setItem('pendingBooking', JSON.stringify({
+        type: 'package',
+        id: pkgId,
+        travelers: travelers,
+        price: currentPkgPrice
+      }));
+      window.location.href = 'payment.html';
+    });
+
+    function addToWishlist(id, title, image, price, btnEl) {
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      if(wishlist.find(w => w._id === id)) {
+        // Already wishlisted — remove it (toggle)
+        wishlist = wishlist.filter(w => w._id !== id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        if(btnEl) {
+          btnEl.classList.remove('wishlisted');
+          btnEl.innerHTML = '<i class="bi bi-heart"></i>';
+        }
+        return;
+      }
+      wishlist.push({
+        type: 'package',
+        _id: id,
+        title: title,
+        location: 'Package Tour',
+        image: image,
+        price: price
+      });
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      if(btnEl) {
+        btnEl.classList.add('wishlisted');
+        btnEl.innerHTML = '<i class="bi bi-heart-fill"></i>';
+      }
+    }
+
+    // Pre-fill hearts for already wishlisted items on page load
+    function markWishlistedHearts() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist.forEach(w => {
+        const btn = document.getElementById('wishBtn_' + w._id);
+        if(btn) {
+          btn.classList.add('wishlisted');
+          btn.innerHTML = '<i class="bi bi-heart-fill"></i>';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

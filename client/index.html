@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookNTravel | Travel & Tourism</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Professional Header -->
+  <header class="fixed-top shadow-sm w-100 transition-all" id="main-header" style="z-index: 1030;">
+    <!-- Top bar removed as requested -->
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg glass-panel py-2" id="navbar">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="/index.html">
+          <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto fw-medium">
+            <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+            <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+          </ul>
+          <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks">
+            <!-- Dynamically filled by main.js -->
+          </ul>
+          <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+            <i class="bi bi-moon fs-5"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Carousel -->
+  <header class="hero-carousel-section position-relative">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000" data-bs-touch="true">
+      <!-- Indicators -->
+      <div class="carousel-indicators" style="z-index: 15; margin-bottom: 2rem;">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="4"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="5"></button>
+      </div>
+
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/images/destinations/goa.png" class="d-block w-100 hero-img" alt="Goa">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/destinations/agra.png" class="d-block w-100 hero-img" alt="Agra">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/destinations/mumbai.png" class="d-block w-100 hero-img" alt="Mumbai">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/destinations/paris.png" class="d-block w-100 hero-img" alt="Paris">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/destinations/mysore.png" class="d-block w-100 hero-img" alt="Mysore">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/destinations/jaipur.png" class="d-block w-100 hero-img" alt="Jaipur">
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 15; width: 10%;">
+        <span class="carousel-control-prev-icon p-4 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 15; width: 10%;">
+        <span class="carousel-control-next-icon p-4 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    
+    <!-- Overlay Content - Booking Engine -->
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center pt-5" style="background: rgba(0,0,0,0.4); z-index: 10;">
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 col-xl-9">
+            
+            <!-- Booking Widget Card -->
+            <div class="card glass-panel rounded-4 shadow-lg border-0 overflow-hidden">
+              
+              <!-- Tabs -->
+              <div class="card-header bg-white border-bottom-0 p-0">
+                <ul class="nav nav-tabs nav-fill border-0 fw-bold fs-5" id="bookingTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active py-3 border-0 rounded-0 text-primary" data-bs-toggle="tab" data-bs-target="#flightsTab"><i class="bi bi-airplane-fill me-2"></i>Flights</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link py-3 border-0 rounded-0 text-secondary" data-bs-toggle="tab" data-bs-target="#trainsTab"><i class="bi bi-train-front-fill me-2"></i>Trains</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link py-3 border-0 rounded-0 text-secondary" data-bs-toggle="tab" data-bs-target="#hotelsTab"><i class="bi bi-building me-2"></i>Hotels</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link py-3 border-0 rounded-0 text-secondary" data-bs-toggle="tab" data-bs-target="#packagesTab"><i class="bi bi-briefcase-fill me-2"></i>Holidays</button>
+                  </li>
+                </ul>
+              </div>
+              
+              <!-- Tab Content -->
+              <div class="card-body bg-white p-4 p-md-5">
+                <div class="tab-content" id="bookingTabContent">
+                  
+                  <!-- Flights Tab -->
+                  <div class="tab-pane fade show active" id="flightsTab">
+                    <form id="heroFlightSearchForm" class="row g-3 align-items-end position-relative">
+                      <!-- From -->
+                      <div class="col-md-6 col-lg-4">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">From</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="fromCity" list="fromCitiesList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="Origin City" required>
+                          <datalist id="fromCitiesList"></datalist>
+                        </div>
+                      </div>
+                      
+                      <!-- Swap Icon -->
+                      <div class="d-none d-lg-flex justify-content-center align-items-center position-absolute" style="width: 40px; height: 40px; left: 25%; top: 60%; transform: translate(-50%, -50%); z-index: 10;">
+                        <button type="button" id="swapBtn" class="btn btn-light rounded-circle shadow border text-primary d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-arrow-left-right"></i></button>
+                      </div>
+                      
+                      <!-- To -->
+                      <div class="col-md-6 col-lg-4">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">To</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="toCity" list="toCitiesList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="Destination City" required>
+                          <datalist id="toCitiesList"></datalist>
+                        </div>
+                      </div>
+                      
+                      <!-- Departure -->
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Travel Date</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-calendar3"></i></span>
+                          <input type="date" id="heroFlightDate" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" required>
+                        </div>
+                      </div>
+                      
+                      <!-- Search Button -->
+                      <div class="col-12 text-center mt-4 pt-3">
+                        <button type="submit" id="heroSearchFlightsBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold fs-5 shadow" style="background: linear-gradient(90deg, var(--primary-color), #003399); border:none;">
+                          <i class="bi bi-search me-2"></i> Search Flights
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <!-- Hotels Tab -->
+                  <div class="tab-pane fade" id="hotelsTab">
+                    <form id="heroHotelSearchForm" class="row g-3 align-items-end">
+                      <div class="col-md-6 col-lg-4">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Destination</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="heroHotelCity" list="heroHotelCitiesList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="City or Destination" required>
+                          <datalist id="heroHotelCitiesList"></datalist>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Check-in</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-calendar3"></i></span>
+                          <input type="date" id="heroHotelCheckIn" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" required>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Check-out</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-calendar3"></i></span>
+                          <input type="date" id="heroHotelCheckOut" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" required>
+                        </div>
+                      </div>
+                      <div class="col-12 col-lg-2">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Rooms</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-door-open"></i></span>
+                          <input type="number" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" value="1" min="1" required>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center mt-4 pt-3">
+                        <button type="submit" id="heroSearchHotelsBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold fs-5 shadow" style="background: linear-gradient(90deg, #0d6efd, #003399); border:none;">
+                          <i class="bi bi-search me-2"></i> Search Hotels
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Trains Tab -->
+                  <div class="tab-pane fade" id="trainsTab">
+                    <form id="heroTrainSearchForm" class="row g-3 align-items-end position-relative">
+                      <div class="col-md-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">From</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="heroTrainFrom" list="heroTrainFromList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="Origin Station" required>
+                          <datalist id="heroTrainFromList"></datalist>
+                        </div>
+                      </div>
+                      <!-- Swap Icon -->
+                      <div class="d-none d-lg-flex justify-content-center align-items-center position-absolute" style="width: 40px; height: 40px; left: 25%; top: 60%; transform: translate(-50%, -50%); z-index: 10;">
+                        <button type="button" id="trainSwapBtn" class="btn btn-light rounded-circle shadow border text-primary d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-arrow-left-right"></i></button>
+                      </div>
+                      <div class="col-md-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">To</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="heroTrainTo" list="heroTrainToList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="Destination Station" required>
+                          <datalist id="heroTrainToList"></datalist>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Travel Date</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-calendar3"></i></span>
+                          <input type="date" id="heroTrainDate" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" required>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Class</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-ticket-perforated"></i></span>
+                          <select class="form-select border-0 fw-medium px-1" style="font-size: 14px;">
+                            <option>All Classes</option>
+                            <option>1AC</option>
+                            <option>2AC</option>
+                            <option>Sleeper</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center mt-4 pt-3">
+                        <button type="submit" id="heroSearchTrainsBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold fs-5 shadow" style="background: linear-gradient(90deg, #0d6efd, #003399); border:none;">
+                          <i class="bi bi-search me-2"></i> Search Trains
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Holidays/Packages Tab -->
+                  <div class="tab-pane fade" id="packagesTab">
+                    <form id="heroPackageSearchForm" class="row g-3 align-items-end">
+                      <div class="col-md-6 col-lg-5">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Destination</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-geo-alt"></i></span>
+                          <input type="text" id="heroPackageDest" list="heroPackageDestList" class="form-control border-0 fw-medium px-2" style="font-size: 14px;" placeholder="Where do you want to go?" required>
+                          <datalist id="heroPackageDestList"></datalist>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-3">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Travel Date</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-calendar3"></i></span>
+                          <input type="date" id="heroPackageDate" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" required>
+                        </div>
+                      </div>
+                      <div class="col-6 col-lg-4">
+                        <label class="form-label text-muted fw-semibold small text-uppercase">Travelers</label>
+                        <div class="input-group border rounded-3 overflow-hidden">
+                          <span class="input-group-text bg-white border-0 text-primary px-2"><i class="bi bi-people"></i></span>
+                          <input type="number" class="form-control border-0 fw-medium px-1" style="font-size: 14px;" value="2" min="1" required>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center mt-4 pt-3">
+                        <button type="submit" id="heroSearchPackagesBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold fs-5 shadow" style="background: linear-gradient(90deg, #0d6efd, #003399); border:none;">
+                          <i class="bi bi-search me-2"></i> Search Holiday Packages
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Popular Destinations (Static for Home) -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Popular Destinations</h2>
+      <div class="row g-4" id="homeDestinations">
+        <div class="col-12 text-center"><div class="loader"></div></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="container py-5 my-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary">Why Choose Us</h2>
+      <p class="text-muted">We provide the best travel experiences tailored just for you</p>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="card glass-panel border-0 h-100 p-4">
+          <div class="card-body">
+            <i class="bi bi-shield-check text-success mb-3" style="font-size: 3rem;"></i>
+            <h4 class="fw-bold mt-2">Safe Travel</h4>
+            <p class="text-muted">Your safety is our priority. We partner with verified and trusted service providers globally.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card glass-panel border-0 h-100 p-4">
+          <div class="card-body">
+            <i class="bi bi-wallet2 text-warning mb-3" style="font-size: 3rem;"></i>
+            <h4 class="fw-bold mt-2">Best Pricing</h4>
+            <p class="text-muted">We guarantee the most competitive rates on flights, hotels, and holiday packages.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card glass-panel border-0 h-100 p-4">
+          <div class="card-body">
+            <i class="bi bi-headset text-primary mb-3" style="font-size: 3rem;"></i>
+            <h4 class="fw-bold mt-2">24/7 Support</h4>
+            <p class="text-muted">Our dedicated travel experts are always available to assist you anytime, anywhere.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="container-fluid bg-primary text-white py-5 my-5" style="background: linear-gradient(135deg, var(--primary-color), #0d47a1);">
+    <div class="container text-center py-4">
+      <h2 class="fw-bold mb-3">Get Exclusive Travel Deals</h2>
+      <p class="lead mb-4">Subscribe to our newsletter and never miss out on amazing offers!</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form id="newsletterForm" class="d-flex gap-2">
+            <input type="email" id="newsletterEmail" class="form-control rounded-pill px-4 py-2" placeholder="Enter your email address" required>
+            <button type="submit" id="subscribeBtn" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" style="min-width: 130px;">Subscribe</button>
+          </form>
+          <div id="subscribeMsg" class="mt-3 d-none"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscribe Toast -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+    <div id="subscribeToast" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert">
+      <div class="d-flex">
+        <div class="toast-body fs-6">
+          <i class="bi bi-check-circle-fill me-2"></i> <span id="toastMessage">Subscribed successfully!</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="js/main.js"></script>
+  <script>
+    // Fetch some destinations for home page
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch(`${API_URL}/destinations`);
+        const destinations = await res.json();
+        const container = document.getElementById('homeDestinations');
+        container.innerHTML = '';
+        
+        // Show max 3
+        destinations.slice(0, 3).forEach(dest => {
+          container.innerHTML += `
+            <div class="col-md-4">
+              <div class="card h-100">
+                <img src="${dest.image}" class="card-img-top" alt="${dest.title}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title">${dest.title}</h5>
+                  <p class="text-muted"><i class="bi bi-geo-alt"></i> ${dest.location}</p>
+                  <p class="card-text text-truncate">${dest.description}</p>
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="fw-bold text-primary">₹${dest.price}</span>
+                    <span class="badge bg-warning" style="color: #000 !important;"><i class="bi bi-star-fill"></i> ${dest.rating}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        if(destinations.length === 0) {
+           container.innerHTML = '<p class="text-center w-100">No destinations found. Check back later!</p>';
+        }
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('homeDestinations').innerHTML = '<p class="text-center text-danger w-100">Error loading destinations</p>';
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Restrict all date pickers to today or future dates
+    const todayStr = new Date().toISOString().split('T')[0];
+    const dateInputs = ['heroFlightDate', 'heroHotelCheckIn', 'heroHotelCheckOut', 'heroTrainDate', 'heroPackageDate'];
+    dateInputs.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.min = todayStr;
+    });
+
+    // Dynamic Hotel Check-out min date update based on Check-in selection
+    const hotelCheckIn = document.getElementById('heroHotelCheckIn');
+    const hotelCheckOut = document.getElementById('heroHotelCheckOut');
+    if(hotelCheckIn && hotelCheckOut) {
+      hotelCheckIn.addEventListener('change', () => {
+        hotelCheckOut.min = hotelCheckIn.value;
+        if(hotelCheckOut.value && hotelCheckOut.value < hotelCheckIn.value) {
+          hotelCheckOut.value = hotelCheckIn.value;
+        }
+      });
+    }
+
+    // --- Flight Booking Engine Logic (Dynamic from API) ---
+    let allHomeFlights = [];
+
+    async function loadFlightCities() {
+      try {
+        const res = await fetch(`${API_URL}/flights?origin=&destination=`);
+        allHomeFlights = await res.json();
+        updateHomeDatalists();
+      } catch(err) {
+        console.error('Failed to load flight cities:', err);
+      }
+    }
+
+    const fromInput = document.getElementById('fromCity');
+    const toInput = document.getElementById('toCity');
+    const fromList = document.getElementById('fromCitiesList');
+    const toList = document.getElementById('toCitiesList');
+    const swapBtn = document.getElementById('swapBtn');
+
+    function updateHomeDatalists() {
+      if(!fromInput || !toInput || !allHomeFlights.length) return;
+      const fromVal = fromInput.value.toLowerCase();
+      const toVal = toInput.value.toLowerCase();
+
+      // Get valid origins based on selected destination
+      const validForOrigin = toVal 
+        ? allHomeFlights.filter(f => f.destination.toLowerCase().includes(toVal)) 
+        : allHomeFlights;
+      const origins = [...new Set(validForOrigin.map(f => f.origin))].sort();
+
+      // Get valid destinations based on selected origin
+      const validForDest = fromVal 
+        ? allHomeFlights.filter(f => f.origin.toLowerCase().includes(fromVal)) 
+        : allHomeFlights;
+      const dests = [...new Set(validForDest.map(f => f.destination))].sort();
+
+      fromList.innerHTML = origins.map(o => `<option value="${o}">`).join('');
+      toList.innerHTML = dests.map(d => `<option value="${d}">`).join('');
+    }
+
+    if(fromInput && toInput) {
+      fromInput.addEventListener('input', updateHomeDatalists);
+      toInput.addEventListener('input', updateHomeDatalists);
+
+      swapBtn.addEventListener('click', () => {
+        const temp = fromInput.value;
+        fromInput.value = toInput.value;
+        toInput.value = temp;
+        updateHomeDatalists();
+      });
+    }
+
+    // Handle search form submissions - redirect with search params using native HTML5 validation
+    const heroFlightSearchForm = document.getElementById('heroFlightSearchForm');
+    if(heroFlightSearchForm) {
+      heroFlightSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const from = fromInput ? fromInput.value.trim() : '';
+        const to = toInput ? toInput.value.trim() : '';
+        sessionStorage.setItem('flightSearch', JSON.stringify({ origin: from, destination: to }));
+        window.location.href = '/html/flights.html';
+      });
+    }
+
+    // Load cities on page load
+    loadFlightCities();
+
+    // --- Train Search Engine Logic (Dynamic from API) ---
+    let allHomeTrains = [];
+
+    async function loadTrainCities() {
+      try {
+        const res = await fetch(`${API_URL}/trains?origin=&destination=`);
+        allHomeTrains = await res.json();
+        updateHomeTrainDatalists();
+      } catch(err) {
+        console.error('Failed to load train cities:', err);
+      }
+    }
+
+    const heroTrainFrom = document.getElementById('heroTrainFrom');
+    const heroTrainTo = document.getElementById('heroTrainTo');
+    const heroTrainFromList = document.getElementById('heroTrainFromList');
+    const heroTrainToList = document.getElementById('heroTrainToList');
+    const trainSwapBtn = document.getElementById('trainSwapBtn');
+
+    function updateHomeTrainDatalists() {
+      if(!heroTrainFrom || !heroTrainTo || !allHomeTrains.length) return;
+      const fromVal = heroTrainFrom.value.toLowerCase();
+      const toVal = heroTrainTo.value.toLowerCase();
+
+      const validForOrigin = toVal 
+        ? allHomeTrains.filter(t => t.destination.toLowerCase().includes(toVal)) 
+        : allHomeTrains;
+      const origins = [...new Set(validForOrigin.map(t => t.origin))].sort();
+
+      const validForDest = fromVal 
+        ? allHomeTrains.filter(t => t.origin.toLowerCase().includes(fromVal)) 
+        : allHomeTrains;
+      const dests = [...new Set(validForDest.map(t => t.destination))].sort();
+
+      heroTrainFromList.innerHTML = origins.map(o => `<option value="${o}">`).join('');
+      heroTrainToList.innerHTML = dests.map(d => `<option value="${d}">`).join('');
+    }
+
+    if(heroTrainFrom && heroTrainTo) {
+      heroTrainFrom.addEventListener('input', updateHomeTrainDatalists);
+      heroTrainTo.addEventListener('input', updateHomeTrainDatalists);
+      if(trainSwapBtn) {
+        trainSwapBtn.addEventListener('click', () => {
+          const temp = heroTrainFrom.value;
+          heroTrainFrom.value = heroTrainTo.value;
+          heroTrainTo.value = temp;
+          updateHomeTrainDatalists();
+        });
+      }
+    }
+
+    const heroTrainSearchForm = document.getElementById('heroTrainSearchForm');
+    if(heroTrainSearchForm) {
+      heroTrainSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const from = heroTrainFrom ? heroTrainFrom.value.trim() : '';
+        const to = heroTrainTo ? heroTrainTo.value.trim() : '';
+        sessionStorage.setItem('trainSearch', JSON.stringify({ origin: from, destination: to }));
+        window.location.href = '/html/trains.html';
+      });
+    }
+
+    loadTrainCities();
+
+    // --- Hotel Search Engine Logic (Dynamic from API) ---
+    let allHomeHotelLocations = [];
+
+    async function loadHotelLocations() {
+      try {
+        const res = await fetch(`${API_URL}/hotels?location=`);
+        const hotels = await res.json();
+        allHomeHotelLocations = [...new Set(hotels.map(h => h.location))].sort();
+        const heroHotelCitiesList = document.getElementById('heroHotelCitiesList');
+        if(heroHotelCitiesList) {
+          heroHotelCitiesList.innerHTML = allHomeHotelLocations.map(l => `<option value="${l}">`).join('');
+        }
+      } catch(err) {
+        console.error('Failed to load hotel locations:', err);
+      }
+    }
+
+    const heroHotelSearchForm = document.getElementById('heroHotelSearchForm');
+    if(heroHotelSearchForm) {
+      heroHotelSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const heroHotelCity = document.getElementById('heroHotelCity');
+        const location = heroHotelCity ? heroHotelCity.value.trim() : '';
+        sessionStorage.setItem('hotelSearch', JSON.stringify({ location: location }));
+        window.location.href = '/html/hotels.html';
+      });
+    }
+
+    loadHotelLocations();
+
+    // --- Holiday Packages Search Engine Logic (Dynamic from API) ---
+    let allHomePackageDestinations = [];
+
+    async function loadPackageDestinations() {
+      try {
+        const res = await fetch(`${API_URL}/packages`);
+        const packages = await res.json();
+        allHomePackageDestinations = packages;
+        const destNames = [...new Set(packages.map(p => p.destination ? p.destination.title : '').filter(Boolean))].sort();
+        const heroPackageDestList = document.getElementById('heroPackageDestList');
+        if(heroPackageDestList) {
+          heroPackageDestList.innerHTML = destNames.map(d => `<option value="${d}">`).join('');
+        }
+      } catch(err) {
+        console.error('Failed to load package destinations:', err);
+      }
+    }
+
+    const heroPackageSearchForm = document.getElementById('heroPackageSearchForm');
+    if(heroPackageSearchForm) {
+      heroPackageSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const heroPackageDest = document.getElementById('heroPackageDest');
+        const dest = heroPackageDest ? heroPackageDest.value.trim() : '';
+        const matchingPkg = allHomePackageDestinations.find(p => p.destination && p.destination.title.toLowerCase() === dest.toLowerCase());
+        const destId = matchingPkg && matchingPkg.destination ? matchingPkg.destination._id : '';
+        sessionStorage.setItem('packageSearch', JSON.stringify({ destName: dest, destId: destId }));
+        window.location.href = '/html/packages.html';
+      });
+    }
+
+    loadPackageDestinations();
+
+    // --- Newsletter Subscribe Logic ---
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('newsletterEmail');
+        const btn = document.getElementById('subscribeBtn');
+        const email = emailInput.value.trim();
+
+        if (!email) return;
+
+        // Check if already subscribed
+        const subs = JSON.parse(localStorage.getItem('bnt_subscribers') || '[]');
+        if (subs.includes(email)) {
+          // Show already subscribed toast
+          const toastMsg = document.getElementById('toastMessage');
+          const toastEl = document.getElementById('subscribeToast');
+          toastEl.classList.remove('text-bg-success');
+          toastEl.classList.add('text-bg-info');
+          toastMsg.textContent = 'You are already subscribed with this email!';
+          const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+          toast.show();
+          return;
+        }
+
+        // Loading state
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Sending...';
+
+        // Simulate API call
+        setTimeout(() => {
+          subs.push(email);
+          localStorage.setItem('bnt_subscribers', JSON.stringify(subs));
+
+          // Success
+          btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Subscribed!';
+          btn.classList.remove('btn-warning');
+          btn.classList.add('btn-success');
+          emailInput.value = '';
+
+          // Show toast
+          const toastMsg = document.getElementById('toastMessage');
+          const toastEl = document.getElementById('subscribeToast');
+          toastEl.classList.remove('text-bg-info');
+          toastEl.classList.add('text-bg-success');
+          toastMsg.textContent = '🎉 Thank you for subscribing! You will receive exclusive deals at ' + email;
+          const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+          toast.show();
+
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = 'Subscribe';
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-warning');
+          }, 3000);
+        }, 1500);
+      });
+    }
+    // --- Animated Placeholder Rotation (MakeMyTrip-style) ---
+    const placeholderSets = {
+      fromCity: ['New Delhi (DEL)', 'Mumbai (BOM)', 'Bengaluru (BLR)', 'Chennai (MAA)', 'Kolkata (CCU)'],
+      toCity: ['Goa (GOI)', 'Paris (CDG)', 'Bali (DPS)', 'Dubai (DXB)', 'Jaipur (JAI)'],
+      heroHotelCity: ['Goa', 'Shimla', 'Manali', 'Udaipur', 'Pondicherry'],
+      heroTrainFrom: ['New Delhi', 'Mumbai Central', 'Howrah Jn', 'Chennai Central', 'Ahmedabad Jn'],
+      heroTrainTo: ['Varanasi Jn', 'Jaipur Jn', 'Lucknow NR', 'Agra Cantt', 'Goa Madgaon'],
+      heroPackageDest: ['Maldives', 'Kerala', 'Rajasthan', 'Thailand', 'Switzerland']
+    };
+    let phIndexes = {};
+    Object.keys(placeholderSets).forEach(id => { phIndexes[id] = 0; });
+
+    function rotatePlaceholder(inputId) {
+      const el = document.getElementById(inputId);
+      if (!el || el === document.activeElement || el.value) return;
+      const list = placeholderSets[inputId];
+      phIndexes[inputId] = (phIndexes[inputId] + 1) % list.length;
+      el.style.transition = 'opacity 0.3s';
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.placeholder = list[phIndexes[inputId]];
+        el.style.opacity = '1';
+      }, 300);
+    }
+
+    setInterval(() => {
+      Object.keys(placeholderSets).forEach(id => rotatePlaceholder(id));
+    }, 3000);
+  </script>
+</body>
+</html>

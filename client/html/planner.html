@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Trip Planner | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html"><span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 active text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5 mt-5">
+    <div class="text-center mb-5">
+      <div class="d-inline-flex align-items-center rounded-pill px-3 py-2 shadow-sm mb-3" style="background: #ffffff !important; border: 1px solid rgba(0,0,0,0.1);">
+        <i class="bi bi-robot fs-5 me-2" style="color: #1a237e !important;"></i>
+        <span class="fw-bold" style="color: #1a237e !important;">Powered by BookNTravel AI</span>
+      </div>
+      <h1 class="fw-bold display-4"><i class="bi bi-stars text-warning"></i> Intelligent Trip Planner</h1>
+      <p class="lead text-muted">Enter your preferences and let our advanced algorithm build your perfect end-to-end itinerary.</p>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card glass-panel p-4 p-md-5 rounded-4 border-0 shadow-lg">
+          <form id="aiPlannerForm">
+            <div class="row g-4">
+              <!-- Origin City -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold text-muted small text-uppercase">Starting From</label>
+                <div class="input-group border rounded-3 overflow-hidden bg-white">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-geo-alt"></i></span>
+                  <input type="text" id="origin" class="form-control border-0 fw-medium" placeholder="Your City (e.g. Delhi)" list="originSuggest" autocomplete="off" required>
+                  <datalist id="originSuggest">
+                    <option value="Delhi">
+                    <option value="Mumbai">
+                    <option value="Bangalore">
+                    <option value="Hyderabad">
+                    <option value="Chennai">
+                    <option value="Kolkata">
+                    <option value="Pune">
+                  </datalist>
+                </div>
+              </div>
+              
+              <!-- Budget -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold text-muted small text-uppercase">Total Budget (₹)</label>
+                <div class="input-group border rounded-3 overflow-hidden bg-white">
+                  <span class="input-group-text bg-white border-0 text-success fw-bold">₹</span>
+                  <input type="number" id="budget" class="form-control border-0 fw-medium" placeholder="e.g. 50000" min="10000" step="1000" autocomplete="off" required>
+                </div>
+              </div>
+              
+              <!-- Days -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-muted small text-uppercase">Duration (Days)</label>
+                <div class="input-group border rounded-3 overflow-hidden bg-white">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-calendar3"></i></span>
+                  <input type="number" id="days" class="form-control border-0 fw-medium" placeholder="e.g. 5" min="1" max="14" required>
+                </div>
+              </div>
+
+              <!-- Travelers -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-muted small text-uppercase">Travelers</label>
+                <div class="input-group border rounded-3 overflow-hidden bg-white">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-people"></i></span>
+                  <input type="number" id="travelers" class="form-control border-0 fw-medium" value="2" min="1" max="10" required>
+                </div>
+              </div>
+              
+              <!-- Vibe -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-muted small text-uppercase">Trip Vibe</label>
+                <div class="input-group border rounded-3 overflow-hidden bg-white">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-emoji-sunglasses"></i></span>
+                  <select id="vibe" class="form-select border-0 fw-medium">
+                    <option value="Beaches & Relaxation">Beaches & Relaxation</option>
+                    <option value="Mountains & Adventure">Mountains & Adventure</option>
+                    <option value="History & Culture">History & Culture</option>
+                    <option value="Luxury & Shopping">Luxury & Shopping</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-12 mt-5 text-center">
+                <button type="submit" id="generateBtn" class="btn btn-primary btn-lg rounded-pill px-5 shadow" style="background: linear-gradient(90deg, var(--primary-color), #003399); border:none;">
+                  <i class="bi bi-magic me-2"></i> Generate Magic Itinerary
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Live AI Generation Status Console -->
+      <div id="aiStatusConsole" class="d-none mt-4">
+        <div class="card glass-panel border-0 shadow-sm rounded-4 p-4 text-center">
+          <div class="spinner-border text-primary mx-auto mb-3" role="status" style="width: 3rem; height: 3rem; border-width: 0.3rem;"></div>
+          <h5 class="fw-bold mb-3">BookNTravel AI is crafting your dream trip...</h5>
+          <div id="aiStatusSteps" class="text-start mx-auto" style="max-width: 420px;">
+            <!-- Steps populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Output -->
+    <div class="row justify-content-center mt-5 d-none" id="itinerarySection">
+      <div class="col-lg-10">
+        
+        <!-- Header Banner -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 position-relative">
+          <div style="height: 200px; background: linear-gradient(45deg, #1a237e, #4a148c); position: relative;">
+            <div class="position-absolute top-50 start-50 translate-middle text-center w-100">
+              <span class="badge bg-warning text-dark mb-2 rounded-pill px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i> Itinerary Generated Successfully</span>
+              <h2 class="fw-bold text-white display-5 mb-0">Your trip to <span id="outDest" class="text-warning"></span></h2>
+            </div>
+          </div>
+          <div class="card-body bg-white p-4">
+            <div class="row text-center g-3" id="tripStats">
+              <!-- Stats populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Left Column: Logistics -->
+          <div class="col-md-4">
+            
+            <div class="card glass-panel border-0 shadow-sm mb-4 rounded-4">
+              <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-airplane text-primary me-2"></i> Flight Recommendation</h5>
+                <div class="d-flex align-items-center mb-2">
+                  <div class="fs-4 fw-bold me-2"><i class="bi bi-building"></i></div>
+                  <div>
+                    <h6 class="fw-bold mb-0" id="flightAirline">IndiGo Airlines</h6>
+                    <small class="text-muted">Direct Flight • 2h 15m</small>
+                  </div>
+                </div>
+                <hr class="text-muted">
+                <div class="d-flex justify-content-between text-muted small fw-medium">
+                  <span id="flightFrom">Origin</span>
+                  <i class="bi bi-arrow-right"></i>
+                  <span id="flightTo">Destination</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card glass-panel border-0 shadow-sm rounded-4">
+              <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-building text-warning me-2"></i> Stay Suggestion</h5>
+                <div class="d-flex align-items-center mb-2">
+                  <div class="fs-4 fw-bold me-2"><i class="bi bi-star-fill text-warning"></i></div>
+                  <div>
+                    <h6 class="fw-bold mb-0" id="hotelName">Premium Resort</h6>
+                    <small class="text-muted" id="hotelStars">4-Star Property</small>
+                  </div>
+                </div>
+                <hr class="text-muted">
+                <p class="small text-muted mb-0"><i class="bi bi-geo-alt"></i> Prime Location, Breakfast Included.</p>
+              </div>
+            </div>
+
+            <div class="mt-4 text-center">
+              <a href="/html/packages.html" class="btn btn-outline-primary rounded-pill w-100 fw-bold"><i class="bi bi-search"></i> Find Full Packages</a>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Timeline -->
+          <div class="col-md-8">
+            <div class="card glass-panel border-0 shadow-sm p-4 p-md-5 rounded-4">
+              <h4 class="fw-bold border-bottom pb-3 mb-4"><i class="bi bi-calendar-check text-success me-2"></i> Day-by-Day Plan</h4>
+              <div id="outDays" class="custom-timeline">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Custom Timeline Styling */
+    .custom-timeline { position: relative; padding-left: 2rem; }
+    .custom-timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 2px;
+      background: #e2e8f0;
+    }
+    body.dark-mode .custom-timeline::before { background: #334155; }
+    
+    .timeline-card { position: relative; margin-bottom: 2rem; }
+    .timeline-badge {
+      position: absolute; left: -2.6rem; top: 0; width: 20px; height: 20px;
+      background: var(--bs-primary); border: 4px solid white; border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.05); z-index: 2;
+    }
+    body.dark-mode .timeline-badge { border-color: var(--bg-dark); }
+    
+    .timeline-content {
+      background: rgba(255,255,255,0.5); padding: 1.5rem; border-radius: 1rem;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    body.dark-mode .timeline-content {
+      background: rgba(30,41,59,0.5); border-color: rgba(255,255,255,0.05);
+    }
+  </style>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    // Connected directly to secure Node.js Real AI routing pipeline powered by Google Gemini Models
+    document.getElementById('aiPlannerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const origin = document.getElementById('origin').value;
+      const budget = parseInt(document.getElementById('budget').value);
+      const days = parseInt(document.getElementById('days').value);
+      const travelers = parseInt(document.getElementById('travelers').value);
+      const vibe = document.getElementById('vibe').value;
+
+      const btn = document.getElementById('generateBtn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Calling Google Gemini AI...';
+      btn.disabled = true;
+
+      document.getElementById('itinerarySection').classList.add('d-none');
+
+      // Show live AI status console
+      const console_el = document.getElementById('aiStatusConsole');
+      const stepsEl = document.getElementById('aiStatusSteps');
+      console_el.classList.remove('d-none');
+      stepsEl.innerHTML = '';
+
+      const aiSteps = [
+        { icon: '🌍', text: 'Analyzing optimal destinations based on your vibe...' },
+        { icon: '✈️', text: 'Scanning premium flight routes and availability...' },
+        { icon: '🏨', text: 'Querying top-rated partnered hotel stays...' },
+        { icon: '🗺️', text: 'Compiling scenic local discoveries & hidden gems...' },
+        { icon: '💰', text: 'Optimizing budget allocation across all services...' },
+        { icon: '✨', text: 'Finalizing your personalized dream itinerary...' }
+      ];
+
+      let stepIdx = 0;
+      const stepInterval = setInterval(() => {
+        if (stepIdx < aiSteps.length) {
+          const s = aiSteps[stepIdx];
+          stepsEl.innerHTML += `<div class="d-flex align-items-center mb-2 animation-fade-in"><span class="me-2" style="font-size:1.2rem;">${s.icon}</span><span class="text-muted small">${s.text}</span><i class="bi bi-check-circle-fill text-success ms-auto"></i></div>`;
+          stepIdx++;
+        }
+      }, 800);
+
+      try {
+        const response = await fetch(`${API_URL}/ai/generate-itinerary`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ origin, budget, days, travelers, vibe })
+        });
+
+        clearInterval(stepInterval);
+
+        if (response.ok) {
+          const data = await response.json();
+          console_el.classList.add('d-none');
+          renderRealItinerary(data, origin, days, travelers, budget);
+        } else {
+          console_el.classList.add('d-none');
+          const errData = await response.json();
+          alert('AI Generation Error: ' + (errData.message || 'Failed to communicate with Google Gemini models.'));
+        }
+      } catch (err) {
+        clearInterval(stepInterval);
+        console_el.classList.add('d-none');
+        console.error(err);
+        alert('Network connectivity error while reaching backend AI router.');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+
+    function renderRealItinerary(data, origin, days, travelers, requestedBudget) {
+      document.getElementById('outDest').innerText = data.destination || 'Selected Destination';
+      
+      const totalCost = data.totalCost || requestedBudget;
+      const vibe = data.vibe || 'Premium Travel';
+
+      document.getElementById('tripStats').innerHTML = `
+        <div class="col-6 col-md-3">
+          <p class="text-muted small mb-1 text-uppercase fw-bold">Duration</p>
+          <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-calendar-event text-primary"></i> ${days} Days</h5>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="text-muted small mb-1 text-uppercase fw-bold">Travelers</p>
+          <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-people text-info"></i> ${travelers}</h5>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="text-muted small mb-1 text-uppercase fw-bold">Est. Cost</p>
+          <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-wallet2 text-success"></i> ₹${totalCost.toLocaleString('en-IN')}</h5>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="text-muted small mb-1 text-uppercase fw-bold">Vibe</p>
+          <h5 class="fw-bold mb-0 text-dark text-truncate" title="${vibe}"><i class="bi bi-star text-warning"></i> ${vibe.split(' ')[0]}</h5>
+        </div>
+      `;
+
+      if (data.flight) {
+        document.getElementById('flightAirline').innerText = data.flight.airline || 'Premium Airlines';
+        document.getElementById('flightFrom').innerText = data.flight.origin || origin.substring(0, 15);
+        document.getElementById('flightTo').innerText = data.flight.destination || data.destination;
+      }
+
+      if (data.hotel) {
+        document.getElementById('hotelName').innerText = data.hotel.name || 'Luxury Stay';
+        document.getElementById('hotelStars').innerText = data.hotel.stars || '5-Star Property';
+      }
+
+      const daysContainer = document.getElementById('outDays');
+      daysContainer.innerHTML = '';
+
+      if (data.itinerary && Array.isArray(data.itinerary)) {
+        data.itinerary.forEach((item, idx) => {
+          const dNum = item.day || (idx + 1);
+          const morning = item.morning || 'Leisurely breakfast and relaxing setup.';
+          const afternoon = item.afternoon || 'Local discovery and authentic culinary dining.';
+          const evening = item.evening || 'Scenic walking views and ambient night rest.';
+
+          daysContainer.innerHTML += `
+            <div class="timeline-card-ota animation-fade-in" style="animation-delay: ${idx * 0.15}s;">
+              <div class="timeline-dot-ota"></div>
+              <div class="timeline-content-ota p-3 rounded-4">
+                <div class="d-flex align-items-center mb-3">
+                  <span class="badge bg-primary rounded-pill px-3 py-2 me-2 fw-bold">Day ${dNum}</span>
+                  <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i>Planned Itinerary</span>
+                </div>
+                <div class="d-flex align-items-start mb-2">
+                  <span class="badge bg-warning bg-opacity-25 text-warning rounded-circle me-2 p-2 flex-shrink-0" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-sunrise"></i></span>
+                  <div><strong class="timeline-label-morning small">MORNING</strong><p class="mb-0 small timeline-desc">${morning}</p></div>
+                </div>
+                <div class="d-flex align-items-start mb-2">
+                  <span class="badge bg-info bg-opacity-25 text-info rounded-circle me-2 p-2 flex-shrink-0" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-sun"></i></span>
+                  <div><strong class="timeline-label-afternoon small">AFTERNOON</strong><p class="mb-0 small timeline-desc">${afternoon}</p></div>
+                </div>
+                <div class="d-flex align-items-start">
+                  <span class="badge bg-dark bg-opacity-25 text-secondary rounded-circle me-2 p-2 flex-shrink-0" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-moon-stars"></i></span>
+                  <div><strong class="timeline-label-evening small">EVENING</strong><p class="mb-0 small timeline-desc">${evening}</p></div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById('itinerarySection').classList.remove('d-none');
+      setTimeout(() => {
+        document.getElementById('itinerarySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  </script>
+</body>
+</html>

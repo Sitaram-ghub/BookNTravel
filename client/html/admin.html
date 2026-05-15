@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html"><span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/html/destinations.html">Destinations</a></li>
+          <li class="nav-item"><a class="nav-link" href="/html/packages.html">Packages</a></li>
+          <li class="nav-item"><a class="nav-link" href="/html/flights.html">Flights</a></li>
+          <li class="nav-item"><a class="nav-link" href="/html/trains.html">Trains</a></li>
+          <li class="nav-item"><a class="nav-link" href="/html/hotels.html">Hotels</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0"><i class="bi bi-moon"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container py-5 mt-4">
+    <h1 class="mb-4">Admin Dashboard</h1>
+
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="card p-3 glass-panel border-0 shadow-sm">
+          <h4 class="fw-bold mb-3"><i class="bi bi-shield-lock-fill"></i> Admin Panel</h4>
+          <div class="list-group list-group-flush">
+            <button class="list-group-item list-group-item-action active bg-primary text-white border-0 rounded mb-1" onclick="showSection(event, 'analytics')"><i class="bi bi-graph-up"></i> Analytics</button>
+            <button class="list-group-item list-group-item-action border-0 rounded mb-1 bg-transparent text-dark" onclick="showSection(event, 'users')"><i class="bi bi-people"></i> Manage Users</button>
+            <button class="list-group-item list-group-item-action border-0 rounded mb-1 bg-transparent text-dark" onclick="showSection(event, 'bookings')"><i class="bi bi-calendar-check"></i> Manage Bookings</button>
+            <button class="btn btn-outline-danger w-100 mt-3" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9">
+        
+        <!-- Analytics Section -->
+        <div id="analyticsSection" class="admin-section">
+          <h2 class="fw-bold mb-4">Platform Analytics</h2>
+          <div class="row mb-4 g-3">
+            <div class="col-md-4">
+              <div class="card glass-panel border-0 shadow-sm p-4 text-center h-100">
+                <h6 class="text-muted text-uppercase fw-bold">Total Bookings</h6>
+                <h2 class="fw-bold text-primary mb-0" id="statBookings"><div class="spinner-border spinner-border-sm"></div></h2>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card glass-panel border-0 shadow-sm p-4 text-center h-100">
+                <h6 class="text-muted text-uppercase fw-bold">Total Users</h6>
+                <h2 class="fw-bold text-success mb-0" id="statUsers"><div class="spinner-border spinner-border-sm"></div></h2>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card glass-panel border-0 shadow-sm p-4 text-center h-100">
+                <h6 class="text-muted text-uppercase fw-bold">Total Revenue</h6>
+                <h2 class="fw-bold text-warning mb-0" id="statRevenue"><div class="spinner-border spinner-border-sm"></div></h2>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card glass-panel border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-4">Booking Breakdown</h5>
+            <div style="height: 300px; position: relative;">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="usersSection" class="admin-section d-none">
+          <h2 class="fw-bold mb-4">Manage Users</h2>
+          <div class="table-responsive glass-panel p-3 rounded">
+            <table class="table table-hover align-middle">
+              <thead class="table-light"><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+              <tbody id="usersTable"><tr><td colspan="4" class="text-center"><div class="loader mx-auto"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="bookingsSection" class="admin-section d-none">
+          <h2 class="fw-bold mb-4">Manage Bookings</h2>
+          <div class="table-responsive glass-panel p-3 rounded">
+            <table class="table table-hover align-middle">
+              <thead class="table-light"><tr><th>Type</th><th>User</th><th>Details</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="bookingsTable"><tr><td colspan="4" class="text-center"><div class="loader mx-auto"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Designed with <i class="bi bi-heart-fill text-danger"></i> for explorers.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getUser();
+      if (!user || user.role !== 'admin') {
+        window.location.href = 'index.html'; // Redirect non-admins
+        return;
+      }
+      loadAnalytics();
+    });
+
+    function showSection(e, sectionId) {
+      document.querySelectorAll('.admin-section').forEach(sec => sec.classList.add('d-none'));
+      document.getElementById(sectionId + 'Section').classList.remove('d-none');
+      
+      // Update sidebar active state
+      const btns = document.querySelectorAll('.list-group-item');
+      btns.forEach(btn => {
+        btn.classList.remove('active', 'bg-primary', 'text-white');
+        btn.classList.add('bg-transparent', 'text-dark');
+      });
+      const activeBtn = e.currentTarget;
+      activeBtn.classList.add('active', 'bg-primary', 'text-white');
+      activeBtn.classList.remove('bg-transparent', 'text-dark');
+
+      if(sectionId === 'users') fetchUsers();
+      if(sectionId === 'bookings') fetchBookings();
+    }
+
+    let myChart = null;
+
+    async function loadAnalytics() {
+      try {
+        const [usersRes, bookingsRes] = await Promise.all([
+          fetch(`${API_URL}/auth/users`, { headers: { Authorization: `Bearer ${getToken()}` } }),
+          fetch(`${API_URL}/bookings`, { headers: { Authorization: `Bearer ${getToken()}` } })
+        ]);
+        
+        const users = await usersRes.json();
+        const bookings = await bookingsRes.json();
+        
+        document.getElementById('statUsers').innerText = users.length || 0;
+        document.getElementById('statBookings').innerText = bookings.length || 0;
+        
+        let revenue = 0;
+        let counts = { flight: 0, train: 0, hotel: 0, package: 0 };
+        
+        bookings.forEach(b => {
+          counts[b.bookingType] = (counts[b.bookingType] || 0) + 1;
+          
+          let itemPrice = 0;
+          if(b.bookingType === 'flight' && b.flightId) itemPrice = b.flightId.price;
+          else if(b.bookingType === 'package' && b.packageId) itemPrice = b.packageId.price;
+          else if(b.bookingType === 'hotel') itemPrice = 100;
+          else if(b.bookingType === 'train') itemPrice = 50;
+          
+          revenue += (itemPrice * (b.travelers || 1));
+        });
+        
+        document.getElementById('statRevenue').innerText = `₹${revenue.toLocaleString()}`;
+
+        // Render Chart.js
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        if(myChart) myChart.destroy();
+        myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Flights', 'Hotels', 'Trains', 'Packages'],
+            datasets: [{
+              data: [counts.flight, counts.hotel, counts.train, counts.package],
+              backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom' }
+            }
+          }
+        });
+
+      } catch (err) {
+        console.error('Error loading analytics', err);
+      }
+    }
+
+    async function fetchUsers() {
+      const tbody = document.getElementById('usersTable');
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center"><div class="loader mx-auto"></div></td></tr>';
+      try {
+        const res = await fetch(`${API_URL}/auth/users`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const users = await res.json();
+        tbody.innerHTML = '';
+        users.forEach(u => {
+          tbody.innerHTML += `<tr><td>${u._id.substring(0,8)}</td><td>${u.name}</td><td>${u.email}</td><td><span class="badge bg-secondary">${u.role}</span></td></tr>`;
+        });
+      } catch (e) { tbody.innerHTML = '<tr><td colspan="4" class="text-danger text-center">Failed</td></tr>'; }
+    }
+
+    async function fetchBookings() {
+      const tbody = document.getElementById('bookingsTable');
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center"><div class="loader mx-auto"></div></td></tr>';
+      try {
+        const res = await fetch(`${API_URL}/bookings`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const bookings = await res.json();
+        tbody.innerHTML = '';
+        bookings.forEach(b => {
+          const uName = b.userId ? b.userId.name : 'Unknown';
+          tbody.innerHTML += `<tr id="row-${b._id}"><td><span class="badge bg-info">${b.bookingType.toUpperCase()}</span></td><td>${uName}</td><td>${b.travelers} units</td><td><span class="badge bg-success">Confirmed</span></td><td><button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteBooking('${b._id}')"><i class="bi bi-trash"></i> Delete</button></td></tr>`;
+        });
+      } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="text-danger text-center">Failed</td></tr>'; }
+    }
+
+    async function deleteBooking(id) {
+      if (!confirm('Are you sure you want to delete this booking?')) return;
+      try {
+        const res = await fetch(`${API_URL}/bookings/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${getToken()}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          document.getElementById('row-' + id).remove();
+          // Refresh analytics
+          loadAnalytics();
+        } else {
+          alert(data.message || 'Failed to delete booking.');
+        }
+      } catch (err) {
+        alert('Server error while deleting booking.');
+      }
+    }
+  </script>
+</body>
+</html>

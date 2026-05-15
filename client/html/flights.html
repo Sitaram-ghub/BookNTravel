@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight Booking | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html"><span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3 active" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5 mt-5">
+    <h1 class="mb-4 fw-bold"><i class="bi bi-airplane-engines-fill text-primary"></i> Search Flights</h1>
+    
+    <div class="card glass-panel p-4 mb-4">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <input type="text" id="flightOrigin" class="form-control" placeholder="From (e.g. Delhi)" list="flightOrigins">
+          <datalist id="flightOrigins"></datalist>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="flightDest" class="form-control" placeholder="To (e.g. Goa)" list="flightDests">
+          <datalist id="flightDests"></datalist>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" onclick="searchFlights()">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="bookingMsg" class="alert d-none" role="alert"></div>
+    <div class="row g-4" id="flightsContainer"></div>
+  </div>
+
+  <!-- Flight Booking Modal -->
+  <div class="modal fade" id="flightBookingModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content glass-panel">
+        <div class="modal-header">
+          <h5 class="modal-title">Book Flight Ticket</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="modalFlightId">
+          <input type="hidden" id="modalFlightPrice">
+          <div class="mb-3">
+            <label>Passengers / Seats</label>
+            <input type="number" id="flightPassengers" class="form-control" value="1" min="1" oninput="updateFlightTotal()">
+          </div>
+          <div class="bg-light p-3 rounded mb-3 text-dark">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Base Price:</span>
+              <span>₹<span id="flightBasePrice">0.00</span></span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 text-muted small">
+              <span>Taxes & Fees (15%):</span>
+              <span>₹<span id="flightTaxAmount">0.00</span></span>
+            </div>
+            <hr class="my-2 border-secondary">
+            <div class="d-flex justify-content-between fw-bold text-primary">
+              <span>Grand Total:</span>
+              <span>₹<span id="flightTotalPrice">0.00</span></span>
+            </div>
+          </div>
+          <button class="btn btn-primary w-100" onclick="submitFlightBooking()">Confirm Flight Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    const flightModal = new bootstrap.Modal(document.getElementById('flightBookingModal'));
+
+    async function searchFlights() {
+      const origin = document.getElementById('flightOrigin').value;
+      const dest = document.getElementById('flightDest').value;
+      const container = document.getElementById('flightsContainer');
+      container.innerHTML = '<div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div><div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div><div class="col-md-6 col-lg-4"><div class="skeleton-box skeleton-card"></div></div>';
+
+      try {
+        const res = await fetch(`${API_URL}/flights?origin=${origin}&destination=${dest}`);
+        const flights = await res.json();
+        
+        container.innerHTML = '';
+        if(flights.length === 0) {
+          container.innerHTML = '<p class="text-center w-100">No flights found for this route.</p>';
+          return;
+        }
+
+        flights.forEach(flight => {
+          const dep = formatDateTime(flight.departureTime);
+          const arr = formatDateTime(flight.arrivalTime);
+          container.innerHTML += `
+            <div class="col-md-6">
+              <div class="card p-4 shadow-sm border-0 glass-panel h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="fw-bold text-primary mb-0"><i class="bi bi-airplane"></i> ${flight.airline}</h5>
+                  <span class="badge bg-secondary">${flight.flightNumber}</span>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-5">
+                    <p class="text-muted small mb-0">Departure</p>
+                    <h6 class="fw-bold">${flight.origin}</h6>
+                    <p class="small mb-0">${dep}</p>
+                  </div>
+                  <div class="col-2 text-center d-flex align-items-center justify-content-center">
+                    <i class="bi bi-arrow-right fs-4 text-muted"></i>
+                  </div>
+                  <div class="col-5 text-end">
+                    <p class="text-muted small mb-0">Arrival</p>
+                    <h6 class="fw-bold">${flight.destination}</h6>
+                    <p class="small mb-0">${arr}</p>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-auto border-top pt-3">
+                  <h4 class="mb-0 fw-bold text-success">₹${flight.price}</h4>
+                  <button class="btn btn-outline-primary" onclick="openFlightModal('${flight._id}', ${flight.price})">Book Seat</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } catch (err) {
+        container.innerHTML = '<p class="text-danger w-100 text-center">Failed to load flights.</p>';
+      }
+    }
+
+    function openFlightModal(flightId, price) {
+      if(!getUser()) {
+        window.location.href = 'login.html';
+        return;
+      }
+      document.getElementById('modalFlightId').value = flightId;
+      document.getElementById('modalFlightPrice').value = price;
+      document.getElementById('flightPassengers').value = 1;
+      updateFlightTotal();
+      flightModal.show();
+    }
+
+    function updateFlightTotal() {
+      const price = parseFloat(document.getElementById('modalFlightPrice').value);
+      const t = document.getElementById('flightPassengers').value || 1;
+      const base = t * price;
+      const tax = base * 0.15;
+      const total = base + tax;
+      
+      document.getElementById('flightBasePrice').innerText = base.toFixed(2);
+      document.getElementById('flightTaxAmount').innerText = tax.toFixed(2);
+      document.getElementById('flightTotalPrice').innerText = total.toFixed(2);
+    }
+
+    function submitFlightBooking() {
+      const flightId = document.getElementById('modalFlightId').value;
+      const price = document.getElementById('modalFlightPrice').value;
+      const travelers = document.getElementById('flightPassengers').value;
+      
+      if(!travelers || travelers < 1) return;
+
+      // Hide modal and store in session
+      flightModal.hide();
+      sessionStorage.setItem('pendingBooking', JSON.stringify({
+        type: 'flight',
+        id: flightId,
+        travelers: travelers,
+        price: parseFloat(price)
+      }));
+      window.location.href = 'payment.html';
+    }
+
+    let allFlightsData = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch(`${API_URL}/flights?origin=&destination=`);
+        allFlightsData = await res.json();
+        updateDatalists();
+      } catch (err) { console.error('Failed to load flight autocomplete'); }
+
+      // Check sessionStorage for search params from home page
+      const savedSearch = sessionStorage.getItem('flightSearch');
+      if(savedSearch) {
+        const { origin, destination } = JSON.parse(savedSearch);
+        if(origin) document.getElementById('flightOrigin').value = origin;
+        if(destination) document.getElementById('flightDest').value = destination;
+        sessionStorage.removeItem('flightSearch'); // Clear after use
+      }
+
+      // Also check URL params as fallback
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlOrigin = urlParams.get('origin');
+      const urlDest = urlParams.get('destination');
+      if(urlOrigin && !document.getElementById('flightOrigin').value) {
+        document.getElementById('flightOrigin').value = urlOrigin;
+      }
+      if(urlDest && !document.getElementById('flightDest').value) {
+        document.getElementById('flightDest').value = urlDest;
+      }
+
+      // Auto-search
+      searchFlights();
+    });
+
+    const originInput = document.getElementById('flightOrigin');
+    const destInput = document.getElementById('flightDest');
+
+    function updateDatalists() {
+      const originVal = originInput.value.toLowerCase();
+      const destVal = destInput.value.toLowerCase();
+
+      // Filter flights based on current inputs
+      const validForOrigin = destVal ? allFlightsData.filter(f => f.destination.toLowerCase().includes(destVal)) : allFlightsData;
+      const validForDest = originVal ? allFlightsData.filter(f => f.origin.toLowerCase().includes(originVal)) : allFlightsData;
+
+      const origins = [...new Set(validForOrigin.map(f => f.origin))];
+      const dests = [...new Set(validForDest.map(f => f.destination))];
+
+      document.getElementById('flightOrigins').innerHTML = origins.map(o => `<option value="${o}">`).join('');
+      document.getElementById('flightDests').innerHTML = dests.map(d => `<option value="${d}">`).join('');
+    }
+
+    originInput.addEventListener('input', updateDatalists);
+    destInput.addEventListener('input', updateDatalists);
+  </script>
+</body>
+</html>

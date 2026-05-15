@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (Keep your secrets safe!)
+.env
+
+# IDE Settings
+.idea/
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Dev Scratch Scripts
+scratch/
+fix_faqs.js
+rebuild_footers.js

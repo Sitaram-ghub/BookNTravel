@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html">
+        <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container py-5 mt-4">
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <div class="col-md-4 col-lg-3">
+        <div class="card glass-panel border-0 shadow-lg p-4 rounded-4 text-center h-100 position-relative overflow-hidden">
+          <div class="position-absolute top-0 start-0 w-100" style="height: 100px; background: linear-gradient(135deg, var(--primary-color), #4a148c); z-index: 0;"></div>
+          <div class="position-relative" style="z-index: 1; margin-top: 30px;">
+            <div class="bg-white rounded-circle shadow p-2 d-inline-block mb-3">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                <i class="bi bi-person"></i>
+              </div>
+            </div>
+            <h5 class="fw-bold mb-1" id="userName">User</h5>
+            <p class="text-muted mb-4" id="userEmail" style="font-size: 0.8rem; word-wrap: break-word;">user@example.com</p>
+          </div>
+          
+          <ul class="nav nav-pills flex-column text-start gap-2" id="dashboardTabs" style="z-index: 1;">
+            <li class="nav-item">
+              <a class="nav-link active rounded-pill fw-medium d-flex justify-content-between align-items-center px-4" data-bs-toggle="pill" href="#allBookings">
+                <span><i class="bi bi-briefcase me-2"></i> My Bookings</span>
+                <i class="bi bi-chevron-right small"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill fw-medium d-flex justify-content-between align-items-center px-4" data-bs-toggle="pill" href="#wishlistTab" onclick="loadWishlist()">
+                <span><i class="bi bi-heart me-2"></i> Wishlist</span>
+                <i class="bi bi-chevron-right small"></i>
+              </a>
+            </li>
+            <li class="nav-item mt-4">
+              <button class="btn btn-outline-danger rounded-pill w-100 fw-bold shadow-sm" onclick="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Main Content -->
+      <div class="col-md-8 col-lg-9">
+        <div class="tab-content">
+          <!-- Bookings Tab -->
+          <div class="tab-pane fade show active" id="allBookings">
+            <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
+              <div>
+                <h3 class="fw-bold mb-1"><i class="bi bi-ticket-detailed text-primary me-2"></i> Active Bookings</h3>
+                <p class="text-muted small mb-0">Manage your upcoming trips and download tickets/invoices.</p>
+              </div>
+            </div>
+            <div class="row g-4" id="bookingsContainer">
+              <div class="col-12 text-center"><div class="loader"></div></div>
+            </div>
+          </div>
+          
+          <!-- Wishlist Tab -->
+          <div class="tab-pane fade" id="wishlistTab">
+            <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
+              <div>
+                <h3 class="fw-bold mb-1"><i class="bi bi-heart-fill text-danger me-2"></i> Saved Wishlist</h3>
+                <p class="text-muted small mb-0">Your dream destinations and packages.</p>
+              </div>
+            </div>
+            <div class="row g-4" id="wishlistContainer">
+              <!-- Wishlist items injected here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Developed by <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="fw-bold text-decoration-none" style="color:var(--primary-color)">Sitaram</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jsPDF for Ticket Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    if(!getUser()) {
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('userName').innerText = getUser().name;
+      document.getElementById('userEmail').innerText = getUser().email;
+      loadBookings();
+    }
+
+    let allMyBookings = [];
+
+    async function loadBookings() {
+      const container = document.getElementById('bookingsContainer');
+      try {
+        const res = await fetch(`${API_URL}/bookings/mybookings`, {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        });
+        allMyBookings = await res.json();
+        
+        container.innerHTML = '';
+        if(allMyBookings.length === 0) {
+          container.innerHTML = '<div class="col-12"><div class="card glass-panel border-0 shadow-sm text-center py-5 rounded-4"><i class="bi bi-calendar-x fs-1 text-muted mb-3 d-block"></i><h5 class="fw-bold">No active bookings found.</h5><p class="text-muted">Start exploring our destinations to plan your next trip!</p><div><a href="/html/packages.html" class="btn btn-primary mt-2 rounded-pill px-4">Explore Packages</a></div></div></div>';
+          return;
+        }
+
+        allMyBookings.forEach((b, index) => {
+          let title = '';
+          let subtitle = '';
+          let icon = '';
+          let priceInfo = '';
+          let priceValue = b.totalPrice ? parseFloat(b.totalPrice).toFixed(2) : '0.00';
+          
+          if(b.bookingType === 'flight' && b.flightId) {
+            title = b.flightId.airline + ' Flight';
+            subtitle = `${b.flightId.origin} to ${b.flightId.destination}`;
+            icon = 'bi-airplane-fill';
+            priceInfo = `Seats: ${b.travelers}`;
+          } else if(b.bookingType === 'train' && b.trainId) {
+            title = b.trainId.trainName + ' Train';
+            subtitle = `${b.trainId.origin} to ${b.trainId.destination} (${b.details?.className})`;
+            icon = 'bi-train-front-fill';
+            priceInfo = `Passengers: ${b.travelers}`;
+          } else if(b.bookingType === 'hotel' && b.hotelId) {
+            title = b.hotelId.hotelName;
+            subtitle = `${b.hotelId.location} - ${b.details?.roomType} Room`;
+            icon = 'bi-building-fill';
+            priceInfo = `Rooms: ${b.travelers}`;
+          } else if(b.packageId) {
+            title = b.packageId.packageName;
+            subtitle = b.packageId.destination?.title || 'Package Tour';
+            icon = 'bi-briefcase-fill';
+            priceInfo = `Travelers: ${b.travelers}`;
+          } else {
+            return; // invalid booking
+          }
+
+          const date = new Date(b.bookingDate).toLocaleDateString();
+
+          container.innerHTML += `
+            <div class="col-lg-6">
+              <div class="card p-4 shadow-sm border-0 glass-panel h-100 rounded-4 position-relative">
+                <span class="position-absolute top-0 end-0 mt-3 me-3 badge bg-success bg-opacity-10 text-success border border-success"><i class="bi bi-check-circle-fill me-1"></i> Confirmed</span>
+                <div class="d-flex align-items-center mb-4 mt-2">
+                  <div class="bg-primary text-white shadow-sm rounded p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="bi ${icon} fs-3"></i>
+                  </div>
+                  <div>
+                    <h5 class="fw-bold mb-1 text-dark">${title}</h5>
+                    <p class="text-muted small mb-0"><i class="bi bi-geo-alt"></i> ${subtitle}</p>
+                  </div>
+                </div>
+                
+                <div class="row g-2 mb-4 text-center">
+                  <div class="col-4">
+                    <div class="border rounded-3 p-2 bg-light">
+                      <small class="text-muted d-block" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">Details</small>
+                      <strong class="text-dark">${priceInfo.split(': ')[1]} Unit(s)</strong>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="border rounded-3 p-2 bg-light">
+                      <small class="text-muted d-block" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">Date</small>
+                      <strong class="text-dark">${date}</strong>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="border rounded-3 p-2 bg-light">
+                      <small class="text-muted d-block" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">Amount</small>
+                      <strong class="text-dark">₹${priceValue}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-auto flex-wrap flex-md-nowrap">
+                  <button class="btn btn-outline-primary rounded-pill flex-grow-1" onclick="downloadTicket(${index})">
+                    <i class="bi bi-file-earmark-pdf"></i> Ticket
+                  </button>
+                  <button class="btn btn-primary rounded-pill flex-grow-1" onclick="downloadInvoice(${index}, ${priceValue})">
+                    <i class="bi bi-receipt"></i> Bill
+                  </button>
+                  <button class="btn btn-outline-danger rounded-circle shadow-sm" style="width:40px; height:40px; flex-shrink:0;" onclick="cancelBooking('${b._id}')" title="Cancel Booking">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } catch (err) {
+        container.innerHTML = '<p class="text-danger w-100 text-center">Failed to load bookings.</p>';
+      }
+    }
+
+    async function cancelBooking(id) {
+      if(!confirm("Are you sure you want to cancel this booking? This action cannot be undone.")) return;
+      
+      try {
+        const res = await fetch(`${API_URL}/bookings/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${getToken()}` }
+        });
+        if(res.ok) {
+          alert('Booking cancelled successfully.');
+          loadBookings();
+        } else {
+          const data = await res.json();
+          alert('Error: ' + data.message);
+        }
+      } catch(err) {
+        alert('Failed to cancel booking.');
+      }
+    }
+
+    function loadWishlist() {
+      const container = document.getElementById('wishlistContainer');
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      
+      container.innerHTML = '';
+      if(wishlist.length === 0) {
+        container.innerHTML = '<div class="col-12"><div class="card glass-panel border-0 shadow-sm text-center py-5 rounded-4"><i class="bi bi-heart fs-1 text-danger mb-3 d-block opacity-50"></i><h5 class="fw-bold">Your wishlist is empty.</h5><p class="text-muted">Save your favorite destinations and packages here.</p><div><a href="/html/destinations.html" class="btn btn-primary mt-2 rounded-pill px-4">Explore Destinations</a></div></div></div>';
+        return;
+      }
+
+      wishlist.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative group">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 rounded-circle shadow" style="z-index:10; width:32px; height:32px;" onclick="removeFromWishlist(${index})" title="Remove">
+                <i class="bi bi-trash"></i>
+              </button>
+              <img src="${item.image}" class="card-img-top" alt="${item.title}" style="height: 180px; object-fit: cover;">
+              <div class="card-body">
+                <span class="badge bg-danger bg-opacity-10 text-danger mb-2">${item.type.toUpperCase()}</span>
+                <h5 class="fw-bold text-dark mb-1">${item.title}</h5>
+                <p class="text-muted small"><i class="bi bi-geo-alt"></i> ${item.location}</p>
+                <h5 class="fw-bold text-primary mb-0 mt-3">₹${item.price}</h5>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function removeFromWishlist(index) {
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist.splice(index, 1);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      loadWishlist();
+    }
+
+    function getLogoImage() {
+      return new Promise((resolve) => {
+        const svgGlobe = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="%2373c2fb" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z"/></svg>`;
+        const svgPlane = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="%23ff5722" viewBox="0 0 16 16"><path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849Z"/></svg>`;
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = 120;
+        canvas.height = 120;
+        const ctx = canvas.getContext('2d');
+        
+        const imgGlobe = new Image();
+        const imgPlane = new Image();
+        
+        imgGlobe.onload = () => {
+          ctx.drawImage(imgGlobe, 10, 30, 70, 70);
+          imgPlane.onload = () => {
+            ctx.translate(80, 30);
+            ctx.rotate(45 * Math.PI / 180);
+            ctx.drawImage(imgPlane, -20, -20, 40, 40);
+            ctx.rotate(-45 * Math.PI / 180);
+            ctx.translate(-80, -30);
+            resolve(canvas.toDataURL('image/png'));
+          };
+          imgPlane.src = 'data:image/svg+xml;charset=utf-8,' + svgPlane;
+        };
+        imgGlobe.src = 'data:image/svg+xml;charset=utf-8,' + svgGlobe;
+      });
+    }
+
+    async function downloadTicket(index) {
+      const b = allMyBookings[index];
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const iconData = await getLogoImage();
+      renderTicketPDF(iconData);
+
+      function renderTicketPDF(logoIcon) {
+        const primaryColor = [0, 33, 71]; // Deep Navy MakeMyTrip style
+        
+        // Header Banner
+        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.rect(0, 0, 210, 42, "F");
+
+        // Draw Globe & Plane Icon
+        if(logoIcon) {
+          doc.addImage(logoIcon, 'PNG', 14, 16, 11, 11);
+        }
+
+        // Text Logo - matching navbar
+        doc.setFontSize(24);
+        doc.setFont("helvetica", "bold");
+        
+        let startX = 26;
+        doc.setTextColor(255, 255, 255);
+        doc.text("Book", startX, 26);
+        let w1 = doc.getTextWidth("Book");
+        
+        doc.setTextColor(255, 87, 34);
+        doc.text("N", startX + w1, 26);
+        let w2 = doc.getTextWidth("N");
+        
+        doc.setTextColor(255, 255, 255);
+        doc.text("Travel", startX + w1 + w2, 26);
+
+        // Tagline
+        doc.setFontSize(7);
+        doc.setTextColor(200, 200, 200);
+        doc.text("DISCOVER HAPPINESS AROUND THE WORLD", 25, 32);
+
+        doc.setFontSize(22);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.text("E-TICKET", 145, 26);
+
+        // Status Badge Strip
+        doc.setFillColor(230, 245, 230);
+        doc.rect(20, 48, 170, 12, "F");
+        doc.setFontSize(11);
+        doc.setTextColor(25, 135, 84);
+        doc.setFont("helvetica", "bold");
+        doc.text("CONFIRMED BOOKING", 25, 56);
+
+        // Passenger Info Box
+        doc.setFontSize(11);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.text("PASSENGER / GUEST DETAILS", 20, 70);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(getUser().name, 20, 78);
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Booking Ref: ${b._id.toUpperCase()}`, 20, 84);
+        doc.text(`Issued On: ${new Date().toLocaleString()}`, 20, 89);
+
+        // Itinerary Card Outline
+        doc.setDrawColor(200, 200, 200);
+        doc.setFillColor(252, 252, 252);
+        doc.roundedRect(20, 98, 170, 60, 4, 4, "FD");
+
+        doc.setFontSize(12);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont("helvetica", "bold");
+        doc.text("ITINERARY SPECIFICATION", 25, 108);
+
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont("helvetica", "normal");
+        let startY = 120;
+        
+        if(b.bookingType === 'flight') {
+          doc.setFont("helvetica", "bold");
+          doc.text("Service Type:", 25, startY); doc.setFont("helvetica", "normal"); doc.text("Flight Booking", 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Carrier / Flight:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(`${b.flightId.airline} (${b.flightId.flightNumber})`, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Sector Route:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(`${b.flightId.origin} → ${b.flightId.destination}`, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Reserved Seats:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.travelers.toString(), 75, startY);
+        } else if(b.bookingType === 'train') {
+          doc.setFont("helvetica", "bold");
+          doc.text("Service Type:", 25, startY); doc.setFont("helvetica", "normal"); doc.text("Rail Booking", 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Train Identity:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(`${b.trainId.trainName} (${b.trainId.trainNumber})`, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Tier Class:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.details?.className || 'General', 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Travelers:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.travelers.toString(), 75, startY);
+        } else if(b.bookingType === 'hotel') {
+          doc.setFont("helvetica", "bold");
+          doc.text("Service Type:", 25, startY); doc.setFont("helvetica", "normal"); doc.text("Hotel Accommodation", 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Property Name:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.hotelId.hotelName, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Location City:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.hotelId.location, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Rooms Booked:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(`${b.travelers} (${b.details?.roomType || 'Standard Room'})`, 75, startY);
+        } else {
+          doc.setFont("helvetica", "bold");
+          doc.text("Service Type:", 25, startY); doc.setFont("helvetica", "normal"); doc.text("Curated Package", 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Package Identity:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.packageId.packageName, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Plan Duration:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.packageId.duration, 75, startY); startY+=10;
+          doc.setFont("helvetica", "bold");
+          doc.text("Total Guests:", 25, startY); doc.setFont("helvetica", "normal"); doc.text(b.travelers.toString(), 75, startY);
+        }
+
+        // Mock Barcode Render MakeMyTrip Style
+        let barY = 175;
+        doc.setFillColor(0, 0, 0);
+        for(let i=0; i<32; i++) {
+          let w = (i%2===0) ? 1.5 : 0.8;
+          let gap = (i%3===0) ? 3.5 : 2;
+          doc.rect(20 + (i*gap), barY, w, 12, "F");
+        }
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`*${b._id.substring(0,12).toUpperCase()}*`, 40, barY + 16);
+
+        // Security Footnote
+        doc.setFontSize(9);
+        doc.setTextColor(120, 120, 120);
+        doc.text("IMPORTANT INSTRUCTIONS:", 20, barY + 30);
+        doc.text("1. Please carry a valid government-issued photo ID during transit/check-in.", 20, barY + 35);
+        doc.text("2. Reporting time is advised 2 hours prior to scheduled departure.", 20, barY + 40);
+        doc.text("3. E-Ticket generated securely via BookNTravel official web application.", 20, barY + 45);
+
+        doc.save(`Ticket_${b._id.substring(0,6).toUpperCase()}.pdf`);
+      }
+    }
+
+    async function downloadInvoice(index, price) {
+      const b = allMyBookings[index];
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const iconData = await getLogoImage();
+      generatePDF(iconData);
+
+      function generatePDF(logoIcon) {
+        // Colors
+        const primaryColor = [0, 33, 71]; // MakeMyTrip Deep Navy Blue
+        const secondaryColor = [255, 87, 34]; // #ff5722 Orange
+        
+        // Header Banner
+        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.rect(0, 0, 210, 40, "F");
+
+        // Draw Globe & Plane Icon
+        if(logoIcon) {
+          doc.addImage(logoIcon, 'PNG', 14, 16, 11, 11);
+        }
+
+        // Text Logo - matching navbar
+        doc.setFontSize(24);
+        doc.setFont("helvetica", "bold");
+        
+        let startX = 26;
+        doc.setTextColor(255, 255, 255);
+        doc.text("Book", startX, 26);
+        let w1 = doc.getTextWidth("Book");
+        
+        doc.setTextColor(255, 87, 34);
+        doc.text("N", startX + w1, 26);
+        let w2 = doc.getTextWidth("N");
+        
+        doc.setTextColor(255, 255, 255);
+        doc.text("Travel", startX + w1 + w2, 26);
+
+        // Tagline
+        doc.setFontSize(7);
+        doc.setTextColor(200, 200, 200);
+        doc.text("DISCOVER HAPPINESS AROUND THE WORLD", 25, 32);
+
+        doc.setFontSize(28);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.text("INVOICE", 140, 28);
+
+        // Company Details
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont("helvetica", "normal");
+        doc.text("Saket, New Delhi, India", 140, 50);
+        doc.text("sitaramkumar2004@gmail.com", 140, 55);
+        doc.text("+91 8527220201", 140, 60);
+
+        // Bill To
+        doc.setFontSize(11);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont("helvetica", "bold");
+        doc.text("BILLED TO:", 20, 50);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(getUser().name, 20, 58);
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont("helvetica", "normal");
+        doc.text(getUser().email, 20, 63);
+
+        // Invoice Details Box
+        doc.setDrawColor(230, 230, 230);
+        doc.setFillColor(250, 250, 250);
+        doc.roundedRect(20, 75, 170, 25, 3, 3, "FD");
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(100, 100, 100);
+        doc.text("Invoice Number", 25, 83);
+        doc.text("Date of Issue", 85, 83);
+        doc.text("Booking ID", 140, 83);
+
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`INV-${b._id.substring(0,6).toUpperCase()}`, 25, 92);
+        doc.text(new Date().toLocaleDateString(), 85, 92);
+        doc.text(b._id.substring(0,10).toUpperCase(), 140, 92);
+
+        // Itemized Table Header
+        let startY = 115;
+        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.rect(20, startY, 170, 12, "F");
+        
+        doc.setFontSize(11);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.text("Description", 25, startY + 8);
+        doc.text("Qty/Travelers", 120, startY + 8);
+        doc.text("Total", 165, startY + 8);
+
+        // Item Data
+        doc.setTextColor(0, 0, 0);
+        doc.setFont("helvetica", "normal");
+        let itemDesc = "Travel Booking";
+        if(b.bookingType === 'flight') itemDesc = "Flight Ticket - " + b.flightId.airline;
+        if(b.bookingType === 'hotel') itemDesc = "Hotel Booking - " + b.hotelId.hotelName;
+        if(b.packageId) itemDesc = `Tour Package - ${b.packageId.packageName} (${b.packageId.duration})`;
+
+        doc.text(itemDesc, 25, startY + 22);
+        doc.text(b.travelers.toString(), 135, startY + 22);
+        
+        let basePrice = (price / 1.15); // Reverse-calculate base price from 15% tax-inclusive total
+        let taxAmount = (price - basePrice);
+        doc.text(`Rs. ${basePrice.toFixed(2)}`, 165, startY + 22);
+
+        doc.setDrawColor(220, 220, 220);
+        doc.line(20, startY + 30, 190, startY + 30);
+
+        // Totals
+        let totalY = startY + 45;
+        doc.setFontSize(11);
+        doc.text("Subtotal:", 120, totalY);
+        doc.text(`Rs. ${basePrice.toFixed(2)}`, 165, totalY);
+
+        doc.text("Taxes & Fees (15%):", 120, totalY + 8);
+        doc.text(`Rs. ${taxAmount.toFixed(2)}`, 165, totalY + 8);
+
+        // Grand Total Box
+        doc.setFillColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+        doc.rect(115, totalY + 15, 75, 12, "F");
+        
+        doc.setFontSize(14);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.text("Total Paid:", 120, totalY + 23);
+        doc.text(`Rs. ${parseFloat(price).toFixed(2)}`, 160, totalY + 23);
+
+        // Footer
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150);
+        doc.setFont("helvetica", "normal");
+        doc.text("Payment Status: PAID", 20, startY + 80);
+        doc.setFont("helvetica", "italic");
+        doc.text("Thank you for booking with BookNTravel! Have a safe journey.", 105, 275, null, null, "center");
+
+        doc.save(`Invoice_${b._id.substring(0,8)}.pdf`);
+      }
+    }
+  </script>
+</body>
+</html>

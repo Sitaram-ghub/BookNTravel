@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout | BookNTravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg glass-panel bg-light shadow-sm" id="navbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/index.html"><span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto fw-medium">
+          <li class="nav-item"><a class="nav-link px-3" href="/index.html"><i class="bi bi-house-door me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/destinations.html"><i class="bi bi-geo-alt me-1"></i> Destinations</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/packages.html"><i class="bi bi-briefcase me-1"></i> Packages</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/flights.html"><i class="bi bi-airplane me-1"></i> Flights</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/trains.html"><i class="bi bi-train-front me-1"></i> Trains</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/html/hotels.html"><i class="bi bi-building me-1"></i> Hotels</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-success fw-bold" href="/html/planner.html"><i class="bi bi-robot me-1"></i> AI Planner</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center gap-2" id="authLinks"></ul>
+        <button id="themeToggleBtn" class="btn btn-outline-secondary ms-lg-3 mt-2 mt-lg-0 border-0 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-moon fs-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <h2 class="mb-4 fw-bold text-center"><i class="bi bi-lock-fill text-success"></i> Secure Checkout</h2>
+        
+        <div id="bookingMsg" class="alert d-none" role="alert"></div>
+
+        <div id="checkoutContent">
+          <!-- Booking Summary -->
+          <div class="card shadow border-0 glass-panel p-4 mb-4">
+            <h5 class="fw-bold text-primary border-bottom pb-2 mb-3">Booking Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted" id="summaryType">Booking Type</span>
+              <span class="fw-bold" id="summaryItem">Loading...</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Travelers / Units</span>
+              <span class="fw-bold" id="summaryTravelers">1</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Price per unit</span>
+              <span class="fw-bold">₹<span id="summaryPrice">0</span></span>
+            </div>
+            <div class="d-flex justify-content-between mb-3 border-bottom pb-3">
+              <span class="text-muted">Taxes & Fees (15%)</span>
+              <span class="fw-bold">₹<span id="summaryTax">0</span></span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <span class="fw-bold fs-5">Grand Total</span>
+              <span class="fw-bold fs-4 text-success">₹<span id="totalAmount">0</span></span>
+            </div>
+          </div>
+
+          <form id="paymentForm">
+            <!-- Customer Details -->
+            <div class="card shadow-sm border-0 glass-panel p-4 mb-4">
+              <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-primary"></i> Customer Details</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label text-muted small">Primary Passenger / Guest Name</label>
+                  <input type="text" class="form-control" id="custName" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-muted small">Email Address</label>
+                  <input type="email" class="form-control" id="custEmail" placeholder="name@example.com" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-muted small">Mobile Number</label>
+                  <input type="tel" class="form-control" id="custPhone" placeholder="+91 9876543210" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Options -->
+            <div class="card shadow-sm border-0 glass-panel p-4 mb-4">
+              <h5 class="fw-bold mb-3"><i class="bi bi-wallet2 text-primary"></i> Select Payment Method</h5>
+              
+              <!-- Payment Tabs -->
+              <ul class="nav nav-pills mb-4 nav-justified" id="paymentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active rounded-pill fw-bold" id="card-tab" data-bs-toggle="tab" data-bs-target="#card-pane" type="button" role="tab"><i class="bi bi-credit-card"></i> Card</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link rounded-pill fw-bold" id="upi-tab" data-bs-toggle="tab" data-bs-target="#upi-pane" type="button" role="tab">UPI</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link rounded-pill fw-bold" id="netbanking-tab" data-bs-toggle="tab" data-bs-target="#netbanking-pane" type="button" role="tab"><i class="bi bi-bank"></i> Net Banking</button>
+                </li>
+              </ul>
+
+              <!-- Tab Content -->
+              <div class="tab-content" id="paymentTabsContent">
+                <!-- Card Pane -->
+                <div class="tab-pane fade show active" id="card-pane" role="tabpanel" tabindex="0">
+                  <div class="mb-3">
+                    <label class="form-label text-muted small">Name on Card</label>
+                    <input type="text" class="form-control" id="ccName" placeholder="John Doe">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label text-muted small">Card Number</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-credit-card"></i></span>
+                      <input type="text" class="form-control" id="ccNum" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                    </div>
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-6">
+                      <label class="form-label text-muted small">Expiry (MM/YY)</label>
+                      <input type="text" class="form-control" id="ccExp" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label text-muted small">CVV</label>
+                      <input type="password" class="form-control" id="ccCvv" placeholder="123" maxlength="4">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- UPI Pane -->
+                <div class="tab-pane fade" id="upi-pane" role="tabpanel" tabindex="0">
+                  <div class="text-center mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 30px;" class="mb-3">
+                    <p class="text-muted small">Pay directly from your bank account using UPI</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label text-muted small">Enter UPI ID / VPA</label>
+                    <input type="text" class="form-control" id="upiId" placeholder="e.g. username@okhdfcbank">
+                  </div>
+                </div>
+
+                <!-- Net Banking Pane -->
+                <div class="tab-pane fade" id="netbanking-pane" role="tabpanel" tabindex="0">
+                  <div class="mb-3">
+                    <label class="form-label text-muted small">Select your Bank</label>
+                    <select class="form-select" id="bankSelect">
+                      <option value="">-- Choose Bank --</option>
+                      <option value="sbi">State Bank of India (SBI)</option>
+                      <option value="hdfc">HDFC Bank</option>
+                      <option value="icici">ICICI Bank</option>
+                      <option value="axis">Axis Bank</option>
+                      <option value="kotak">Kotak Mahindra Bank</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-3 fs-5 rounded-pill shadow-sm fw-bold" id="payBtn">
+              <i class="bi bi-shield-lock-fill me-1"></i> Pay ₹<span id="btnAmount">0</span> Securely
+            </button>
+          </form>
+
+          <!-- Immersive Secure Gateway 3D-Secure Mockup Interface -->
+          <div id="gatewaySimulationContainer" class="d-none border rounded-4 glass-panel p-4 p-md-5 mt-4 text-center shadow-lg" style="background: rgba(255, 255, 255, 0.97); border: 2px solid #0d6efd !important;">
+            
+            <!-- Step 1: Secure Handshake Indicator -->
+            <div id="gatewayStep1" class="py-4">
+              <div class="spinner-border text-primary mb-3" role="status" style="width: 3.5rem; height: 3.5rem; border-width: 0.35rem;"></div>
+              <h4 class="fw-bold text-dark">Connecting to Secure Banking Gateway...</h4>
+              <p class="text-muted small mb-0">Establishing end-to-end 256-bit SSL encrypted connection with merchant portal</p>
+              <div class="mt-3 text-center">
+                <span class="badge bg-light text-secondary border"><i class="bi bi-shield-check text-success"></i> PCI-DSS Certified</span>
+              </div>
+            </div>
+            
+            <!-- Step 2: 3D-Secure Interbank OTP Verification Hub -->
+            <div id="gatewayStep2" class="d-none py-2 animation-fade-in">
+              <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style="width: 65px; height: 65px;">
+                <i class="bi bi-shield-lock-fill fs-1"></i>
+              </div>
+              <h4 class="fw-bold text-dark">Bank OTP Authentication</h4>
+              <p class="text-muted small mb-4">We've sent a 6-digit dynamic security code to your registered mobile number: <strong id="lblSimPhone" class="text-primary"></strong></p>
+              
+              <!-- 6-Square OTP Layout -->
+              <div class="d-flex justify-content-center gap-2 mb-4" id="otpInputsWrapper">
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+                <input type="text" class="form-control text-center fw-bold fs-3 sim-otp border-primary" maxlength="1" style="width: 48px; height: 56px;" required>
+              </div>
+
+              <!-- Magic Fill Control -->
+              <div class="d-flex justify-content-between align-items-center px-2 mb-4">
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill fw-medium" id="btnAutoFillOtp">
+                  <i class="bi bi-magic me-1"></i> Auto Fill
+                </button>
+                <div id="otpTimerWrapper" class="text-muted small">
+                  Resend OTP in <span id="otpTimer" class="fw-bold text-dark">45</span>s
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary w-100 py-3 fs-5 fw-bold rounded-pill shadow-sm" id="btnSubmitOtp">
+                Verify & Authorize Transaction
+              </button>
+              <div class="mt-3 small text-muted">
+                <i class="bi bi-info-circle me-1"></i> Sandbox Gateway Simulation Environment
+              </div>
+            </div>
+
+            <!-- Step 3: Success Seal -->
+            <div id="gatewayStep3" class="d-none py-4 animation-fade-in">
+              <i class="bi bi-check-circle-fill text-success" style="font-size: 4.5rem;"></i>
+              <h3 class="fw-bold text-success mt-3">Payment Authenticated Successfully!</h3>
+              <p class="text-muted mb-0">Secure interbank protocol handshake validated. Finalizing booking itinerary...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-5 glass-panel border-top">
+    <div class="container">
+      <div class="row gy-4">
+        <!-- Logo and About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand fw-bold text-primary fs-3 mb-3 d-inline-block" href="/index.html">
+            <span class="brand-icon" style="position:relative; display:inline-block; margin-right:15px;"><i class="bi bi-globe-americas" style="color:#1a237e;"></i><i class="bi bi-airplane-fill" style="position:absolute; top:-5px; right:-15px; font-size:1.5rem; color:#ff5722; transform:rotate(45deg); filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3));"></i></span><span class="brand-logo-text"><span style="color:#1a237e">Book</span><span style="color:#ff5722">N</span><span style="color:#1a237e">Travel</span><span class="brand-tagline">Discover Happiness Around the World</span></span>
+          </a>
+          <p class="text-muted mb-4">Your ultimate travel partner. We provide the best tour packages, flight bookings, and destination guides to make your travel memorable and hassle-free.</p>
+          <div class="d-flex gap-3 social-icons">
+            <a href="https://www.linkedin.com/in/sitaramkum/" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/918527220201" target="_blank" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/index.html" class="text-muted text-decoration-none nav-link-hover">Home</a></li>
+            <li class="mb-2"><a href="/html/destinations.html" class="text-muted text-decoration-none nav-link-hover">Destinations</a></li>
+            <li class="mb-2"><a href="/html/packages.html" class="text-muted text-decoration-none nav-link-hover">Packages</a></li>
+            <li class="mb-2"><a href="/html/flights.html" class="text-muted text-decoration-none nav-link-hover">Flights</a></li>
+            <li class="mb-2"><a href="/html/hotels.html" class="text-muted text-decoration-none nav-link-hover">Hotels</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li class="mb-2"><a href="/html/faqs.html" class="text-muted text-decoration-none nav-link-hover">FAQs</a></li>
+            <li class="mb-2"><a href="/html/cancellation.html" class="text-muted text-decoration-none nav-link-hover">Cancellation Policy</a></li>
+            <li class="mb-2"><a href="/html/terms.html" class="text-muted text-decoration-none nav-link-hover">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="/html/privacy.html" class="text-muted text-decoration-none nav-link-hover">Privacy Policy</a></li>
+            <li class="mb-2"><a href="/html/planner.html" class="text-success fw-medium text-decoration-none nav-link-hover">AI Trip Planner</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Payment Methods -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 text-dark">Contact Us</h5>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i> Saket, New Delhi, India</li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-primary me-2"></i> 
+              <a href="tel:+918527220201" class="text-muted text-decoration-none">+91 8527220201</a>
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-primary me-2"></i> 
+              <a href="mailto:sitaramkumar2004@gmail.com" class="text-muted text-decoration-none">sitaramkumar2004@gmail.com</a>
+            </li>
+          </ul>
+          
+          <h6 class="fw-bold mb-2 text-dark">We Accept</h6>
+          <div class="d-flex gap-2 align-items-center">
+            <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" style="height: 20px;" class="ms-2">
+            <i class="bi bi-bank fs-4 text-info ms-2"></i>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4 border-secondary opacity-25">
+      
+      <div class="text-center text-muted small">
+        &copy; 2026 BookNTravel. All Rights Reserved. Designed with <i class="bi bi-heart-fill text-danger"></i> for explorers.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    // Extract booking data from sessionStorage (robust against URL stripping)
+    let bookingData = null;
+    try {
+      bookingData = JSON.parse(sessionStorage.getItem('pendingBooking'));
+    } catch(e) {}
+
+    const bookingType = bookingData ? bookingData.type : null;
+    const id = bookingData ? bookingData.id : null;
+    const travelers = bookingData ? parseInt(bookingData.travelers || 1) : 1;
+    const price = bookingData ? parseFloat(bookingData.price || 0) : 0;
+    const details = bookingData ? bookingData.details : null;
+
+    const msg = document.getElementById('bookingMsg');
+    const checkoutContent = document.getElementById('checkoutContent');
+
+    if (!getUser()) {
+      window.location.href = 'login.html';
+    } else if (!bookingType || !id || isNaN(price)) {
+      // Handle missing parameters
+      checkoutContent.classList.add('d-none');
+      msg.classList.remove('d-none');
+      msg.className = 'alert alert-danger text-center shadow-sm py-4';
+      msg.innerHTML = `<h5><i class="bi bi-exclamation-triangle-fill text-danger fs-2 d-block mb-2"></i> Invalid Booking Session</h5>
+      <p class="mb-3">We couldn't find the details for your booking. Please try selecting your trip again.</p>
+      <a href="index.html" class="btn btn-outline-danger rounded-pill">Return to Home</a>`;
+    } else {
+      // Valid Session, Populate UI
+      document.getElementById('summaryType').innerText = bookingType.charAt(0).toUpperCase() + bookingType.slice(1);
+      document.getElementById('summaryItem').innerText = details ? `${bookingType.toUpperCase()} - ${details}` : bookingType.toUpperCase();
+      document.getElementById('summaryTravelers').innerText = travelers;
+      document.getElementById('summaryPrice').innerText = price.toFixed(2);
+      
+      const baseTotal = price * travelers;
+      const taxAmount = baseTotal * 0.15;
+      const grandTotal = (baseTotal + taxAmount).toFixed(2);
+      
+      document.getElementById('summaryTax').innerText = taxAmount.toFixed(2);
+      document.getElementById('totalAmount').innerText = grandTotal;
+      document.getElementById('btnAmount').innerText = grandTotal;
+
+      // Real-time Input Auto-formatting logic
+      const ccNumInput = document.getElementById('ccNum');
+      if(ccNumInput) {
+        ccNumInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+          let matches = v.match(/\d{4,16}/g);
+          let match = matches && matches[0] || '';
+          let parts = [];
+          for (let i=0, len=match.length; i<len; i+=4) {
+            parts.push(match.substring(i, i+4));
+          }
+          if (parts.length) {
+            e.target.value = parts.join(' ');
+          } else {
+            e.target.value = v;
+          }
+        });
+      }
+
+      const ccExpInput = document.getElementById('ccExp');
+      if(ccExpInput) {
+        ccExpInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\//g, '').replace(/[^0-9]/gi, '');
+          if(v.length > 2) {
+            e.target.value = v.substring(0,2) + '/' + v.substring(2,4);
+          } else {
+            e.target.value = v;
+          }
+        });
+      }
+
+      // Handle OTP autofocus sequence logic
+      const otpInputs = document.querySelectorAll('.sim-otp');
+      otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          if(e.target.value.length === 1 && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+          }
+        });
+        input.addEventListener('keydown', (e) => {
+          if(e.key === 'Backspace' && !e.target.value && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
+      });
+
+      // Magic OTP autofill helper
+      let currentOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      document.getElementById('btnAutoFillOtp').addEventListener('click', () => {
+        otpInputs.forEach((inp, idx) => {
+          inp.value = currentOtp[idx];
+        });
+        // Auto-focus final
+        otpInputs[otpInputs.length - 1].focus();
+      });
+
+      function startOtpTimer() {
+        let t = 45;
+        const wrapper = document.getElementById('otpTimerWrapper');
+        wrapper.innerHTML = `Resend OTP in <span id="otpTimer" class="fw-bold text-dark">${t}</span>s`;
+        
+        const interval = setInterval(() => {
+          t--;
+          const timerSpan = document.getElementById('otpTimer');
+          if(t >= 0 && timerSpan) {
+            timerSpan.innerText = t;
+          } else {
+            clearInterval(interval);
+            wrapper.innerHTML = `<a href="#" id="btnResendOtp" class="text-primary fw-bold text-decoration-none small"><i class="bi bi-arrow-clockwise"></i> Resend OTP</a>`;
+            
+            document.getElementById('btnResendOtp').addEventListener('click', (e) => {
+              e.preventDefault();
+              // Generate new random OTP
+              currentOtp = Math.floor(100000 + Math.random() * 900000).toString();
+              // Clear inputs
+              otpInputs.forEach(inp => inp.value = '');
+              otpInputs[0].focus();
+              // Restart timer
+              startOtpTimer();
+            });
+          }
+        }, 1000);
+      }
+
+      // Gateway execution module
+      const gatewayContainer = document.getElementById('gatewaySimulationContainer');
+      const step1 = document.getElementById('gatewayStep1');
+      const step2 = document.getElementById('gatewayStep2');
+      const step3 = document.getElementById('gatewayStep3');
+      const paymentForm = document.getElementById('paymentForm');
+
+      // Handle Form Submission
+      paymentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Basic frontend validation for payment methods
+        const activeTab = document.querySelector('#paymentTabs .active').id;
+        if(activeTab === 'card-tab') {
+          if(!document.getElementById('ccNum').value || !document.getElementById('ccExp').value || !document.getElementById('ccCvv').value) {
+            alert('Please fill out your card details completely.'); return;
+          }
+        } else if(activeTab === 'upi-tab') {
+          if(!document.getElementById('upiId').value) {
+            alert('Please enter your UPI ID.'); return;
+          }
+        } else if(activeTab === 'netbanking-tab') {
+          if(!document.getElementById('bankSelect').value) {
+            alert('Please select your bank.'); return;
+          }
+        }
+
+        // Capture customer phone
+        const custPhone = document.getElementById('custPhone').value || "+91 9876543210";
+        document.getElementById('lblSimPhone').innerText = custPhone;
+
+        // Hide main form fields visually to focus on gateway overlay
+        paymentForm.classList.add('d-none');
+        gatewayContainer.classList.remove('d-none');
+        step1.classList.remove('d-none');
+        step2.classList.add('d-none');
+        step3.classList.add('d-none');
+
+        // Simulate 1.5s Handshake connection
+        setTimeout(() => {
+          step1.classList.add('d-none');
+          step2.classList.remove('d-none');
+          // Start timer simulation
+          startOtpTimer();
+        }, 1500);
+      });
+
+      // Process OTP submission authorization
+      document.getElementById('btnSubmitOtp').addEventListener('click', async () => {
+        // Validate all 6 filled
+        let code = "";
+        otpInputs.forEach(i => code += i.value);
+        if(code.length < 6) {
+          alert("Please input the complete 6-digit dynamic OTP verification code.");
+          return;
+        }
+
+        const btnSubmitOtp = document.getElementById('btnSubmitOtp');
+        btnSubmitOtp.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Authorizing Secure Hash...';
+        btnSubmitOtp.disabled = true;
+
+        // Transition to authenticated success shield
+        setTimeout(async () => {
+          step2.classList.add('d-none');
+          step3.classList.remove('d-none');
+
+          // Prepare Booking Payload
+          const payload = {
+            bookingType,
+            travelers,
+            totalPrice: parseFloat(grandTotal)
+          };
+
+          if (bookingType === 'flight') payload.flightId = id;
+          if (bookingType === 'train') { payload.trainId = id; payload.details = { className: details }; }
+          if (bookingType === 'hotel') { payload.hotelId = id; payload.details = { roomType: details }; }
+          if (bookingType === 'package') payload.packageId = id;
+
+          try {
+            const res = await fetch(`${API_URL}/bookings`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${getToken()}`
+              },
+              body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            
+            // Finish simulation redirect cleanly
+            setTimeout(() => {
+              gatewayContainer.classList.add('d-none');
+              msg.classList.remove('d-none');
+              
+              if (res.ok) {
+                sessionStorage.removeItem('pendingBooking');
+                msg.className = 'alert alert-success text-center py-4 shadow-sm animation-fade-in';
+                msg.innerHTML = `<h5><i class="bi bi-check-circle-fill text-success fs-2 d-block mb-2"></i> Transaction Processing Complete!</h5><p class="mb-0">Your reservation has been completely ticketed. Transporting directly to dynamic dashboard...</p>`;
+                
+                setTimeout(() => {
+                  window.location.href = 'dashboard.html';
+                }, 1800);
+              } else {
+                msg.className = 'alert alert-danger';
+                msg.innerText = data.message || 'Interbank routing failed during clearing verification. Please retry.';
+                paymentForm.classList.remove('d-none');
+                btnSubmitOtp.innerHTML = 'Verify & Authorize Transaction';
+                btnSubmitOtp.disabled = false;
+              }
+            }, 1200);
+
+          } catch (err) {
+            alert('Network integration socket error during clearing sequence.');
+            gatewayContainer.classList.add('d-none');
+            paymentForm.classList.remove('d-none');
+            btnSubmitOtp.innerHTML = 'Verify & Authorize Transaction';
+            btnSubmitOtp.disabled = false;
+          }
+        }, 1200);
+      });
+    }
+  </script>
+</body>
+</html>

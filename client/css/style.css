@@ -1,0 +1,856 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap');
+:root {
+  --primary-color: #0066ff; /* Vibrant Ocean Blue */
+  --secondary-color: #ff5722; /* Sunset Coral */
+  --bg-light: #f4f7f6; /* Soft cool gray for light mode */
+  --text-light: #1e293b;
+  --bg-dark: #1a1f2e; /* Softer dark — not pure black */
+  --card-dark: #232a3b; /* Card/surface color */
+  --surface-dark: #2a3347; /* Elevated surfaces */
+  --text-dark: #e8ecf1;
+  --text-muted-dark: #9ca3b4;
+  --border-dark: #3a4359;
+  --glass-bg-light: rgba(255, 255, 255, 0.7);
+  --glass-border-light: rgba(255, 255, 255, 0.5);
+  --glass-bg-dark: rgba(35, 42, 59, 0.85);
+  --glass-border-dark: rgba(255, 255, 255, 0.08);
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  min-height: 100vh;
+}
+
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Glassmorphism Classes (Refined Frost Effect) */
+.glass-panel {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+}
+
+body.dark-mode .glass-panel {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Navbar Customization */
+#main-header {
+  background: transparent;
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+.navbar {
+  transition: all 0.4s ease;
+  padding: 10px 0;
+  width: 100%;
+  margin: 0 !important;
+}
+.navbar.scrolled, #main-header.scrolled .navbar {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+#main-header.scrolled .top-bar {
+  display: none !important; /* Hide top bar on scroll */
+}
+
+body.dark-mode .navbar.scrolled, body.dark-mode #main-header.scrolled .navbar {
+  background-color: rgba(26, 31, 46, 0.95) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--text-light);
+  transition: color 0.3s;
+}
+body.dark-mode .nav-link {
+  color: var(--text-dark);
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Center align icons above text in navbar */
+.navbar-nav .nav-link {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  white-space: nowrap;
+}
+
+.navbar-nav .nav-link i {
+  margin-right: 0 !important;
+  margin-bottom: 2px;
+  font-size: 1.2rem;
+}
+
+.hover-warning:hover {
+  color: #ffc107 !important;
+}
+
+/* Cards (Ultra Sleek) */
+.card {
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 20px;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: #ffffff;
+}
+
+body.dark-mode .card {
+  background-color: var(--card-dark);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  color: var(--text-dark);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 102, 255, 0.15);
+}
+
+body.dark-mode .card:hover {
+  box-shadow: 0 20px 40px rgba(0, 102, 255, 0.2);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), #00d2ff);
+  border: none;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 102, 255, 0.5);
+  background: linear-gradient(135deg, #005ce6, #00bfff);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+}
+
+/* Hero Carousel Section */
+.hero-carousel-section {
+  height: 85vh;
+  overflow: hidden;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.hero-img {
+  height: 85vh;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  z-index: 5;
+}
+
+/* Enhancing Glassmorphism for Overlay text */
+.hero-overlay .glass-panel {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  border-radius: 30px;
+}
+
+body.dark-mode .hero-overlay .glass-panel {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Footer */
+footer {
+  background-color: #1a1f2e;
+  color: #9ca3b4;
+  padding: 60px 0 30px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+footer a {
+  color: #c5ccda;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Loader */
+.loader {
+  border: 4px solid rgba(0, 102, 255, 0.1);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===================================================
+   COMPREHENSIVE DARK MODE - All Pages & Elements
+   =================================================== */
+
+/* Body & Background */
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Override Bootstrap bg-body-tertiary (Login/Register pages) */
+body.dark-mode.bg-body-tertiary {
+  background-color: var(--bg-dark) !important;
+}
+
+/* Typography */
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode p, body.dark-mode span, body.dark-mode label {
+  color: var(--text-dark);
+}
+body.dark-mode .text-muted {
+  color: var(--text-muted-dark) !important;
+}
+body.dark-mode .text-dark {
+  color: #dce1ea !important;
+}
+body.dark-mode .badge.bg-warning,
+body.dark-mode .badge.bg-warning .text-dark,
+body.dark-mode .bg-warning {
+  color: #1a1f2e !important;
+}
+body.dark-mode .text-secondary {
+  color: var(--text-muted-dark) !important;
+}
+body.dark-mode .lead {
+  color: #cbd5e1;
+}
+
+/* --- NAVBAR (All Pages) --- */
+body.dark-mode .navbar.bg-light {
+  background-color: rgba(26, 31, 46, 0.97) !important;
+}
+body.dark-mode .navbar .nav-link {
+  color: #e2e8f0 !important;
+}
+body.dark-mode .navbar .nav-link:hover,
+body.dark-mode .navbar .nav-link.active {
+  color: #ffffff !important;
+}
+body.dark-mode .navbar .nav-link.text-success {
+  color: #4ade80 !important;
+}
+/* --- Premium Brand Logo Styles --- */
+.brand-icon {
+  color: #ff5722 !important;
+  font-size: 2.2rem;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.brand-logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  vertical-align: middle;
+  letter-spacing: -0.5px;
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+}
+
+.brand-tagline {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.32em;
+  font-weight: 500;
+  color: #6c757d;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .brand-logo-text {
+    font-size: 1.5rem;
+  }
+  .brand-icon i {
+    font-size: 1.5rem !important;
+  }
+  .brand-tagline {
+    font-size: 0.28em;
+    letter-spacing: -0.2px;
+  }
+}
+
+body.dark-mode .brand-tagline {
+  color: #9ca3b4;
+}
+
+body.dark-mode .brand-logo-text span[style*="1a237e"] {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+body.dark-mode .bi-globe-americas {
+  color: #64b5f6 !important;
+}
+
+body.dark-mode .btn-light {
+  background-color: #2b3035 !important;
+  border-color: #495057 !important;
+  color: #e9ecef !important;
+}
+
+body.dark-mode .btn-light.text-dark {
+  color: #e9ecef !important;
+}
+
+body.dark-mode .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+body.dark-mode .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* --- New Hero Section & Booking Widget Styles --- */
+.hero-carousel-section {
+  height: 90vh;
+  min-height: 700px;
+}
+.hero-img {
+  height: 90vh;
+  min-height: 700px;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  padding-top: 80px; /* Offset for dual navbar */
+}
+
+/* Booking Widget Adjustments */
+#bookingTabs .nav-link {
+  color: #6c757d;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  border-bottom: 3px solid transparent !important;
+}
+#bookingTabs .nav-link.active {
+  color: var(--primary-color) !important;
+  border-bottom: 3px solid var(--primary-color) !important;
+  background-color: transparent;
+}
+body.dark-mode #bookingTabs .nav-link {
+  color: var(--text-muted-dark);
+}
+body.dark-mode #bookingTabs .nav-link.active {
+  color: #64b5f6 !important;
+  border-bottom-color: #64b5f6 !important;
+}
+
+body.dark-mode .card-header.bg-white,
+body.dark-mode .card-body.bg-white {
+  background-color: var(--card-dark) !important;
+}
+
+body.dark-mode .input-group-text.bg-white {
+  background-color: var(--surface-dark) !important;
+  color: #dce1ea !important;
+}
+body.dark-mode .form-control {
+  background-color: var(--surface-dark) !important;
+  color: #dce1ea !important;
+}
+body.dark-mode .form-control::placeholder {
+  color: #7a829a !important;
+}
+body.dark-mode #themeToggleBtn {
+  color: #dce1ea !important;
+}
+
+/* --- CARDS (All Pages) --- */
+body.dark-mode .card {
+  background-color: var(--card-dark);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+  color: var(--text-dark);
+}
+body.dark-mode .card:hover {
+  box-shadow: 0 16px 35px rgba(0, 102, 255, 0.15);
+}
+body.dark-mode .card-text,
+body.dark-mode .card-title {
+  color: var(--text-dark);
+}
+
+/* --- GLASS PANEL (All Pages) --- */
+body.dark-mode .glass-panel {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* --- FORMS (All Pages) --- */
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  background-color: var(--surface-dark);
+  border: 1px solid var(--border-dark);
+  color: #e8ecf1;
+}
+body.dark-mode .form-control::placeholder {
+  color: #6b7590;
+}
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background-color: var(--surface-dark);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.2);
+  color: #fff;
+}
+/* Floating labels (Login/Register) */
+body.dark-mode .form-floating label {
+  color: var(--text-muted-dark);
+  background: transparent;
+}
+body.dark-mode .form-floating > .form-control {
+  background-color: var(--surface-dark);
+  border: 1px solid var(--border-dark);
+  color: #e8ecf1;
+}
+body.dark-mode .form-floating > .form-control::placeholder {
+  color: transparent;
+}
+body.dark-mode .form-floating > .form-control:focus ~ label,
+body.dark-mode .form-floating > .form-control:not(:placeholder-shown) ~ label {
+  color: #60a5fa;
+  opacity: 1;
+}
+/* Input group (Payment card icon) */
+body.dark-mode .input-group-text {
+  background-color: var(--surface-dark);
+  border-color: var(--border-dark);
+  color: var(--text-muted-dark);
+}
+
+/* --- MODALS (Destinations Overview, Train/Flight/Hotel Booking) --- */
+body.dark-mode .modal-content {
+  background-color: var(--card-dark);
+  color: var(--text-dark);
+}
+body.dark-mode .modal-header {
+  border-bottom-color: var(--border-dark);
+}
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+/* Weather box inside destinations modal */
+body.dark-mode .bg-light {
+  background-color: var(--surface-dark) !important;
+  color: var(--text-dark);
+}
+body.dark-mode .bg-light.border {
+  border-color: var(--border-dark) !important;
+}
+
+/* --- TABLES (Admin Dashboard, Dashboard) --- */
+body.dark-mode .table {
+  color: var(--text-dark);
+}
+body.dark-mode .table-light th {
+  background-color: var(--surface-dark);
+  color: #dce1ea;
+  border-color: var(--border-dark);
+}
+body.dark-mode td {
+  border-color: var(--border-dark);
+}
+body.dark-mode .table-hover > tbody > tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* --- ALERTS --- */
+body.dark-mode .alert-danger {
+  background-color: rgba(220, 53, 69, 0.15);
+  border-color: rgba(220, 53, 69, 0.3);
+  color: #f8d7da;
+}
+body.dark-mode .alert-success {
+  background-color: rgba(25, 135, 84, 0.15);
+  border-color: rgba(25, 135, 84, 0.3);
+  color: #d1e7dd;
+}
+
+/* --- BUTTONS (Special overrides) --- */
+body.dark-mode .btn-outline-primary {
+  color: #60a5fa;
+  border-color: #60a5fa;
+}
+body.dark-mode .btn-outline-primary:hover {
+  background: #60a5fa;
+  color: #1a1f2e;
+}
+body.dark-mode .btn-outline-secondary {
+  color: var(--text-muted-dark);
+  border-color: var(--border-dark);
+}
+body.dark-mode .btn-outline-danger {
+  color: #f87171;
+  border-color: #f87171;
+}
+body.dark-mode .btn-outline-success {
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+/* --- NAV PILLS / TABS (Dashboard, Payment Tabs) --- */
+body.dark-mode .nav-pills .nav-link {
+  color: var(--text-muted-dark);
+}
+body.dark-mode .nav-pills .nav-link.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+body.dark-mode .nav-pills .nav-link:hover:not(.active) {
+  color: #dce1ea;
+}
+
+/* --- LIST GROUP (Admin Sidebar) --- */
+body.dark-mode .list-group-item {
+  background-color: transparent;
+  color: #dce1ea !important;
+  border-color: var(--border-dark);
+}
+body.dark-mode .list-group-item.active {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-color: var(--primary-color);
+}
+body.dark-mode .list-group-item:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* --- BADGES --- */
+body.dark-mode .badge.bg-secondary {
+  background-color: var(--border-dark) !important;
+}
+
+/* --- BORDERS --- */
+body.dark-mode .border-bottom {
+  border-bottom-color: var(--border-dark) !important;
+}
+body.dark-mode .border-top {
+  border-top-color: var(--border-dark) !important;
+}
+body.dark-mode hr {
+  border-color: var(--border-dark);
+  opacity: 0.4;
+}
+
+/* --- PAYMENT PAGE --- */
+body.dark-mode .shadow-sm {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* --- SCROLLBAR (Premium Touch) --- */
+body.dark-mode ::-webkit-scrollbar {
+  width: 8px;
+}
+body.dark-mode ::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+}
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: var(--surface-dark);
+}
+
+/* --- FOOTER DARK MODE --- */
+body.dark-mode footer {
+  background-color: #161b28;
+}
+body.dark-mode footer h5,
+body.dark-mode footer h6 {
+  color: #dce1ea !important;
+}
+body.dark-mode footer .text-muted {
+  color: var(--text-muted-dark) !important;
+}
+
+body.dark-mode .btn-light {
+  background-color: var(--surface-dark) !important;
+  border-color: var(--border-dark) !important;
+  color: #dce1ea !important;
+}
+body.dark-mode .btn-light.text-dark {
+  color: #dce1ea !important;
+}
+
+/* ===================================================
+   PREMIUM OTA OVERHAUL - SKELETONS & MICRO-ANIMATIONS
+   =================================================== */
+
+/* Skeleton Loading Screens */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-box {
+  background: #e2e8f0;
+  background-image: linear-gradient(to right, #e2e8f0 0%, #edeef1 20%, #e2e8f0 40%, #e2e8f0 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  border-radius: 8px;
+}
+
+body.dark-mode .skeleton-box {
+  background: #2a3347;
+  background-image: linear-gradient(to right, #2a3347 0%, #35405a 20%, #2a3347 40%, #2a3347 100%);
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 16px;
+  margin-bottom: 8px;
+}
+
+.skeleton-text.short {
+  width: 60%;
+}
+
+.skeleton-card {
+  height: 380px;
+  width: 100%;
+  border-radius: 20px;
+}
+
+/* Micro-Animations & Interaction Enhancement */
+.micro-scale {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+}
+.micro-scale:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 102, 255, 0.2) !important;
+}
+
+/* Shimmer Highlight Effects */
+.shimmer-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  opacity: 0;
+  transform: rotate(30deg);
+  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(
+    to right, 
+    rgba(255, 255, 255, 0.05) 0%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    rgba(255, 255, 255, 0.05) 100%
+  );
+}
+.shimmer-hover:hover::after {
+  animation: shimmer-sweep 1s ease-in-out;
+}
+
+@keyframes shimmer-sweep {
+  0% { left: -60%; opacity: 1; }
+  100% { left: 140%; opacity: 0; }
+}
+
+/* Connected Vertical Timeline Tracker Accents */
+.timeline-card-ota {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 2.5rem;
+  transition: all 0.3s ease;
+}
+.timeline-card-ota:hover {
+  transform: translateX(6px);
+}
+.timeline-card-ota::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 32px;
+  bottom: -32px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+  opacity: 0.3;
+  border-radius: 2px;
+}
+.timeline-card-ota:last-child::before {
+  display: none;
+}
+.timeline-dot-ota {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 4px solid #fff;
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.5);
+  z-index: 2;
+}
+body.dark-mode .timeline-dot-ota {
+  border-color: var(--card-dark);
+}
+
+.animation-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Timeline Content Card — Light Mode */
+.timeline-content-ota {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: background 0.3s ease;
+}
+
+/* Timeline Content Card — Dark Mode */
+body.dark-mode .timeline-content-ota {
+  background: rgba(42, 51, 71, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Timeline Labels — Light Mode */
+.timeline-label-morning { color: #0d6efd; }
+.timeline-label-afternoon { color: #e6a817; }
+.timeline-label-evening { color: #0dcaf0; }
+
+/* Timeline Labels — Dark Mode */
+body.dark-mode .timeline-label-morning { color: #60a5fa; }
+body.dark-mode .timeline-label-afternoon { color: #fbbf24; }
+body.dark-mode .timeline-label-evening { color: #67e8f9; }
+
+/* Timeline Description Text */
+.timeline-desc { color: #495057; }
+body.dark-mode .timeline-desc { color: #c5ccda !important; }
+
+/* Timeline Connector Line — Dark Mode */
+body.dark-mode .timeline-card-ota::before {
+  opacity: 0.5;
+}
+
+/* Timeline Card Hover — Dark Mode */
+body.dark-mode .timeline-card-ota:hover .timeline-content-ota {
+  background: rgba(42, 51, 71, 1);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Payment Gateway Simulation — Dark Mode */
+body.dark-mode #gatewaySimulationContainer {
+  background: var(--card-dark) !important;
+  border-color: var(--primary-color) !important;
+}
+body.dark-mode #gatewaySimulationContainer h4,
+body.dark-mode #gatewaySimulationContainer h3 {
+  color: var(--text-dark) !important;
+}
+body.dark-mode .sim-otp {
+  background-color: var(--surface-dark) !important;
+  color: #fff !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* --- Planner Stats Card Dark Mode Fix --- */
+body.dark-mode .card-body.bg-white {
+  background-color: var(--card-dark) !important;
+}
+
+/* --- Dark Mode Select Dropdown Arrow Fix --- */
+body.dark-mode .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23c5ccda' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  color: #dce1ea !important;
+}
+body.dark-mode .modal-content .form-select {
+  background-color: var(--surface-dark) !important;
+  border-color: var(--border-dark) !important;
+}
+body.dark-mode .modal-content .form-control {
+  background-color: var(--surface-dark) !important;
+  border-color: var(--border-dark) !important;
+  color: #dce1ea !important;
+}
+body.dark-mode .modal-content .bg-light {
+  background-color: var(--card-dark) !important;
+}
+
+/* --- Wishlist Heart Button States --- */
+.btn-wishlist-heart {
+  transition: all 0.3s ease;
+}
+.btn-wishlist-heart.wishlisted {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: #fff !important;
+}
+.btn-wishlist-heart.wishlisted:hover {
+  background-color: #b02a37 !important;
+}
