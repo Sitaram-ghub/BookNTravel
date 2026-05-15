@@ -462,23 +462,20 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
 
-body.dark-mode .form-floating label {
-  color: var(--text-muted-dark);
-  padding: 1rem 0.75rem;
-}
 body.dark-mode .form-floating > .form-control {
   background-color: var(--surface-dark) !important;
   border: 1px solid var(--border-dark);
   color: #e8ecf1 !important;
 }
-body.dark-mode .form-floating > .form-control::placeholder {
-  color: transparent;
+
+body.dark-mode .form-floating > label {
+  color: var(--text-muted-dark);
 }
+
 body.dark-mode .form-floating > .form-control:focus ~ label,
 body.dark-mode .form-floating > .form-control:not(:placeholder-shown) ~ label {
   color: #60a5fa !important;
-  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
-  background-color: transparent !important;
+  background-color: var(--surface-dark) !important;
 }
 /* Input group (Payment card icon) */
 body.dark-mode .input-group-text {
