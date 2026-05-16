@@ -7,14 +7,13 @@ const User = require('./models/User');
 
 const seedData = async () => {
   try {
-    // Instead of skipping, we will wipe existing non-user data to refresh it with varied data
-    await Destination.deleteMany({});
-    await Package.deleteMany({});
-    await Flight.deleteMany({});
-    await Train.deleteMany({});
-    await Hotel.deleteMany({});
-    await User.deleteMany({});
-    console.log('Cleared existing users, destinations and services. Seeding fresh varied data...');
+    // Check if data already exists to avoid clearing on every restart
+    const count = await Destination.countDocuments();
+    if (count > 0) {
+      return;
+    }
+
+    console.log('Database empty. Seeding fresh data...');
 
     // Default users creation removed per user request
 
