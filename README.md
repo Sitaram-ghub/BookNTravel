@@ -4,6 +4,11 @@ BookNTravel is a state-of-the-art, full-stack travel booking application designe
 
 ---
 
+## 🔗 Live Demo
+🚀 **Experience the live application here:** [https://bookntravel.onrender.com](https://bookntravel.onrender.com)
+
+---
+
 ## ✨ Key Features
 
 - **🛡️ Secure Authentication:** JWT-based user registration and login with encrypted passwords.
