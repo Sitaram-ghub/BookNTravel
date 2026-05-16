@@ -51,7 +51,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   // Use ANSI colors to make the link blue and clickable
   console.log(`\x1b[32m✔\x1b[0m Server running in \x1b[36m${process.env.NODE_ENV}\x1b[0m mode on port \x1b[1m${PORT}\x1b[0m`);
-  console.log(`\x1b[34m\x1b[1m➜  Frontend Link: \x1b[4mhttp://localhost:${PORT}\x1b[0m`);
+  console.log(`➜  Frontend Link: http://localhost:${PORT}`);
 
   // Note: nodemon restarts the server on every file change. 
   // If you want to stop the browser from opening every time, comment out the lines below.
