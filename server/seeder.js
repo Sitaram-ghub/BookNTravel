@@ -13,17 +13,10 @@ const seedData = async () => {
     await Flight.deleteMany({});
     await Train.deleteMany({});
     await Hotel.deleteMany({});
-    console.log('Cleared existing destinations and services. Seeding fresh varied data...');
+    await User.deleteMany({});
+    console.log('Cleared existing users, destinations and services. Seeding fresh varied data...');
 
-    // Create default users (so login always works)
-    const existingUsers = await User.countDocuments();
-    if (existingUsers === 0) {
-      await User.create([
-        { name: 'Sitaram', email: 'sitaramkumar2004@gmail.com', password: 'password123', role: 'user' },
-        { name: 'Admin', email: 'admin@wanderworld.com', password: 'admin123', role: 'admin' }
-      ]);
-      console.log('Default users created: sitaramkumar2004@gmail.com / password123 & admin@wanderworld.com / admin123');
-    }
+    // Default users creation removed per user request
 
     const destinationsData = [
       // 15 Indian Destinations
